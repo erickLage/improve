@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:improve/splashScreen.dart';
+import 'menu.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,11 @@ class WoranaApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'WoranaApp',
-      home: Splash(),
+      home: Menu(),
       //Navigation routes
       routes: { 
+        '/menu': (context) => Menu(),
+        '/splash': (context) => Splash()
       },
     );
   }

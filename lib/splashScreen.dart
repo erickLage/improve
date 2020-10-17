@@ -6,10 +6,20 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+
+  @override
+  void didChangeDependencies() {
+    gotoMenu();
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(child: CircularProgressIndicator()),
     );
+  }
+
+  void gotoMenu(){
+    //Navigator.pushNamedAndRemoveUntil(context, '/menu', (route) => false);
   }
 }

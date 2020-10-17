@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "214579242254",
+    "firebase_url": "https://improve-123ff.firebaseio.com",
+    "project_id": "improve-123ff",
+    "storage_bucket": "improve-123ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214579242254:android:406dfae1d6569264eb235f",
+        "android_client_info": {
+          "package_name": "com.example.improve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214579242254-2qot7qbe90cefggpr9jt1dqov71r3vvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZDFjpUcauhmrRYvs5osk9bz5-t4w_pS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214579242254-2qot7qbe90cefggpr9jt1dqov71r3vvv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
