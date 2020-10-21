@@ -39,10 +39,9 @@ class _MenuState extends State<Menu> {
                 ),
               ),
               RaisedButton(
-                
                 color: Colors.lightGreen[400],
                 onPressed: (){
-                  
+                  Navigator.pushNamed(context, '/cadastro');
                 },
                 child: Container(
                   alignment: Alignment.center,

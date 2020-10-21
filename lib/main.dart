@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:improve/splashScreen.dart';
+import 'package:improve/cadastro.dart';
 import 'menu.dart';
 
 void main(){
@@ -22,7 +23,8 @@ class WoranaApp extends StatelessWidget{
       //Navigation routes
       routes: { 
         '/menu': (context) => Menu(),
-        '/splash': (context) => Splash()
+        '/splash': (context) => Splash(),
+        '/cadastro': (context) => Cadastro(),
       },
     );
   }
