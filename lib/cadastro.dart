@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:improve/Classes/user.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class _CadastroState extends State<Cadastro> {
 
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+
+  String _errorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +137,14 @@ class _CadastroState extends State<Cadastro> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    _errorText, 
+                    style: TextStyle(
+                      color: Colors.red
+                    ),
+                  ),
                 ),
                 FlatButton(
                   color: Colors.green,
@@ -155,6 +165,48 @@ class _CadastroState extends State<Cadastro> {
     final formState = _formkey.currentState;
     if(formState.validate()){
       formState.save();
+      try{
+        FirebaseUser _userFirebase = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)).user;
+        _userFirebase.sendEmailVerification();
+
+        User _user = new User.firebaseNamedUser(_userFirebase, _name);
+        await _user.saveFirestore();
+
+        await showDialog(context: context, builder: (context){
+          return AlertDialog(
+            title: Text('Falta pouco'), 
+            content: Text('Favor verificar Email para concluir o cadastro.'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                }, 
+                child: Text('ok', style: TextStyle(fontSize: 18),)
+              ),
+            ],
+          );
+        });
+
+        if(!_userFirebase.isEmailVerified) await FirebaseAuth.instance.signOut();
+
+        Navigator.pushReplacementNamed(context, '/menu');
+      }catch(e){
+        setState(() {
+          switch (e.code) {
+            case 'ERROR_INVALID_EMAIL':
+              _errorText = 'Seu email parece estar mal formatado.';
+              break;
+            case 'ERROR_EMAIL_ALREADY_IN_USE':
+              _errorText= 'Este email ja está sendo utilizado.';
+              break;
+            default:
+              _errorText = 'Um erro inseperado aconteceu.';
+          }
+        });
+        print(e.message);
+      }
     }
   }
+
+  
 }
