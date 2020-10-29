@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:improve/main.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -24,10 +26,28 @@ class _MenuState extends State<Menu> {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 80,
+              ),
+              Visibility(
+                visible: user != null && user.getID() != '-1',
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Bem vindo, "+user.getName(), style: TextStyle(fontSize: 18, color: Colors.blue),),
+                ),
               ),
               RaisedButton(
                 color: Colors.blue,
+                onPressed: ()async{
+                  await Navigator.pushNamed(context, '/login');
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(user == null || user.getID() == '-1' ? 'Entrar' : 'Alterar conta')
+                ),
+              ),  
+              RaisedButton(
+                color: Colors.lightGreen[400],
                 onPressed: (){
                   
                 },
@@ -35,17 +55,6 @@ class _MenuState extends State<Menu> {
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
                   child: Text('Jogar')
-                ),
-              ),
-              RaisedButton(
-                color: Colors.lightGreen[400],
-                onPressed: (){
-                  Navigator.pushNamed(context, '/cadastro');
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text('Cadastre-se')
                 ),
               ),
               RaisedButton(

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:improve/Classes/user.dart';
+import 'package:improve/main.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -109,8 +110,8 @@ class _CadastroState extends State<Cadastro> {
                             hintText: 'Digite sua senha'
                           ),
                           validator: (value){
-                            if(value.length < 2){
-                              return 'Mínimo de 2 digitos';
+                            if(value.length < 6){
+                              return 'Mínimo de 6 digitos';
                             }
                             return null;      
                           },
@@ -166,6 +167,9 @@ class _CadastroState extends State<Cadastro> {
     if(formState.validate()){
       formState.save();
       try{
+        if(user != null && user.getID() != '-1'){
+          await FirebaseAuth.instance.signOut();
+        }
         FirebaseUser _userFirebase = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)).user;
         _userFirebase.sendEmailVerification();
 
@@ -189,7 +193,7 @@ class _CadastroState extends State<Cadastro> {
 
         if(!_userFirebase.isEmailVerified) await FirebaseAuth.instance.signOut();
 
-        Navigator.pushReplacementNamed(context, '/menu');
+        Navigator.pop(context);
       }catch(e){
         setState(() {
           switch (e.code) {
