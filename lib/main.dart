@@ -4,10 +4,12 @@ import 'package:improve/splashScreen.dart';
 import 'package:improve/cadastro.dart';
 import 'package:improve/login.dart';
 import 'package:improve/Classes/user.dart';
-import 'ajuda.dart';
-import 'menu.dart';
+import 'package:improve/ajuda.dart';
+import 'package:improve/menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 User user = new User();
+SharedPreferences prefs;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   //prevent device orientation change
@@ -23,7 +25,7 @@ class WoranaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'WoranaApp',
-      home: Menu(),
+      home: Splash(),
       //Navigation routes
       routes: {
         '/menu': (context) => Menu(),

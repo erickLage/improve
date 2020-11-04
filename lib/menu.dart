@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:improve/main.dart';
 
@@ -66,7 +65,7 @@ class _MenuState extends State<Menu> {
             RaisedButton(
               color: Colors.pink[300],
               onPressed: () {
-                Navigator.pushNamed(context, "/ajuda");
+                
               },
               child: Container(
                   alignment: Alignment.center,

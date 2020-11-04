@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:improve/Classes/user.dart';
+import 'package:improve/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -6,11 +10,12 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  FirebaseUser userFirebase;
 
   @override
-  void didChangeDependencies() {
+  void initState(){
+    super.initState();
     gotoMenu();
-    super.didChangeDependencies();
   }
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,20 @@ class _SplashState extends State<Splash> {
     );
   }
 
-  void gotoMenu(){
-    //Navigator.pushNamedAndRemoveUntil(context, '/menu', (route) => false);
+  Future<void> gotoMenu()async{
+
+    userFirebase = await FirebaseAuth.instance.currentUser();
+    prefs = await SharedPreferences.getInstance();
+
+
+    if(userFirebase != null){
+      user = new User.firebase(userFirebase);
+      await user.loadFirestore();
+    }
+    if(prefs.getBool('firstTime') ?? true){
+      await Navigator.pushNamedAndRemoveUntil(context, '/ajuda', (route) => false);
+    }else{
+      await Navigator.pushNamedAndRemoveUntil(context, '/menu', (route) => false);
+    }
   }
 }
