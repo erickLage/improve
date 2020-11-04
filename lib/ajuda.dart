@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:improve/main.dart';
 
 class Ajuda extends StatefulWidget {
@@ -9,8 +8,9 @@ class Ajuda extends StatefulWidget {
 }
 
 class _AjudaState extends State<Ajuda> {
-  PageController pageController = new PageController(initialPage: 0, viewportFraction: 1);
-  int paginaAtual = 0; 
+  PageController pageController =
+      new PageController(initialPage: 0, viewportFraction: 1);
+  int paginaAtual = 0;
   List<String> titulo = [
     'Bem vindo ao Improve!',
     'Cadastre-se',
@@ -29,7 +29,7 @@ class _AjudaState extends State<Ajuda> {
     Image.asset('src/assets/logo_sem_fundo.png', color: Colors.white),
     Icon(Icons.face, size: 100, color: Colors.white),
     Icon(Icons.create, size: 100, color: Colors.white),
-    Icon(Icons.games, size: 100, color: Colors.white),
+    Icon(Icons.sports_esports, size: 100, color: Colors.white),
     Icon(Icons.share, size: 100, color: Colors.white)
   ];
 
