@@ -48,7 +48,53 @@ class _MenuState extends State<Menu> {
             ),
             RaisedButton(
               color: Colors.lightGreen[400],
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Container(
+                        height: 250,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  color: Colors.red,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  color: Colors.red,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
               child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
@@ -64,9 +110,7 @@ class _MenuState extends State<Menu> {
             ),
             RaisedButton(
               color: Colors.pink[300],
-              onPressed: () {
-                
-              },
+              onPressed: () {},
               child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
