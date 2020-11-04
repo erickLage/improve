@@ -68,15 +68,35 @@ class _MenuState extends State<Menu> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    color: Colors.red,
+                                  GestureDetector(
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      color: Colors.red[50],
+                                    ),
+                                    onTap: () {
+                                      if (prefs.getBool('firstTimePlaying') ??
+                                          true)
+                                        Navigator.pushNamed(context, '/ajuda1',
+                                            arguments: '/jogo0');
+                                      else
+                                        Navigator.pushNamed(context, '/jogo0');
+                                    },
                                   ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    color: Colors.red,
+                                  GestureDetector(
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      color: Colors.red[100],
+                                    ),
+                                    onTap: () {
+                                      if (prefs.getBool('firstTimePlaying') ??
+                                          true)
+                                        Navigator.pushNamed(context, '/ajuda1',
+                                            arguments: '/jogo1');
+                                      else
+                                        Navigator.pushNamed(context, "/jogo1");
+                                    },
                                   ),
                                 ],
                               ),
@@ -84,21 +104,49 @@ class _MenuState extends State<Menu> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    color: Colors.red,
+                                  GestureDetector(
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      color: Colors.red[200],
+                                    ),
+                                    onTap: () {
+                                      if (prefs.getBool('firstTimePlaying') ??
+                                          true)
+                                        Navigator.pushNamed(context, '/ajuda1',
+                                            arguments: '/jogo2');
+                                      else
+                                        Navigator.pushNamed(context, "/jogo2");
+                                    },
                                   ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    color: Colors.red,
+                                  GestureDetector(
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      color: Colors.red[300],
+                                    ),
+                                    onTap: () {
+                                      if (prefs.getBool('firstTimePlaying') ??
+                                          true)
+                                        Navigator.pushNamed(context, '/ajuda1',
+                                            arguments: '/jogo3');
+                                      else
+                                        Navigator.pushNamed(context, "/jogo3");
+                                    },
                                   ),
                                 ],
                               ),
                             ],
                           ),
                         ),
+                        actions: [
+                          IconButton(
+                              icon: Icon(Icons.help),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/ajuda1',
+                                    arguments: 'menu');
+                              })
+                        ],
                       );
                     },
                   );
