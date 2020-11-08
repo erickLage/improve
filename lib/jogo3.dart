@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Jogo3 extends StatefulWidget {
+class Jogo3Menu extends StatefulWidget {
   @override
-  _Jogo3State createState() => _Jogo3State();
+  _Jogo3MenuState createState() => _Jogo3MenuState();
 }
 
-class _Jogo3State extends State<Jogo3> {
+class _Jogo3MenuState extends State<Jogo3Menu> {
   @override
   Widget build(BuildContext context) {
     return Container(

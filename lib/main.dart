@@ -53,7 +53,7 @@ class ImproveApp extends StatelessWidget {
           home: Splash(),
           //Navigation routes
           routes: {
-            '/menu': (context) => Menu(),
+           '/menu': (context) => Menu(),
             '/splash': (context) => Splash(),
             '/cadastro': (context) => Cadastro(),
             '/pontuacao': (context) => Pontuacao(),
@@ -61,10 +61,14 @@ class ImproveApp extends StatelessWidget {
             '/login': (context) => Login(),
             '/ajuda': (context) => Ajuda(),
             '/ajuda1': (context) => Ajuda1(),
-            '/jogo0': (context) => Jogo0(),
-            '/jogo1': (context) => Jogo1(),
-            '/jogo2': (context) => Jogo2(),
-            '/jogo3': (context) => Jogo3(),
+            '/tutorial0': (context) => Ajuda1(pagina: 0,),
+            '/tutorial1': (context) => Ajuda1(pagina: 1,),
+            '/tutorial2': (context) => Ajuda1(pagina: 2,),
+            '/tutorial3': (context) => Ajuda1(pagina: 3,),
+            '/jogo0': (context) => Jogo0Menu(),
+            '/jogo1': (context) => Jogo1Menu(),
+            '/jogo2': (context) => Jogo2Menu(),
+            '/jogo3': (context) => Jogo3Menu(),
           },
         );
       }

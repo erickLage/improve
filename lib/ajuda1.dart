@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:improve/main.dart';
 
 class Ajuda1 extends StatefulWidget {
-  @override
+  final int pagina;
+  Ajuda1({this.pagina});
   _Ajuda1State createState() => _Ajuda1State();
 }
 
@@ -42,111 +43,163 @@ class _Ajuda1State extends State<Ajuda1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              onPageChanged: (index) {
-                setState(() {
-                  paginaAtual = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return Container(
-                  color: randomColor(),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        icones[index],
-                        Text(
-                          titulo[index],
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
-                          child: Text(
-                            descricao[index],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
-                        )
-                      ]),
-                );
-              },
-            ),
-          ),
-          Container(
-            height: 60,
-            child: Row(
+    if(widget.pagina != null){
+      return Scaffold(
+        body: SafeArea(
+          child: Container(
+            color: randomColor(),
+            child: Stack(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: FlatButton(
-                    child: Text("Pular"),
-                    onPressed: () async {
-                      if (prefs.getBool('firstTimePlaying') ?? true)
-                        await prefs.setBool('firstTimePlaying', false);
-                      if (jogo == 'menu')
-                        Navigator.pop(context);
-                      else
-                        await Navigator.popAndPushNamed(context, jogo);
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
                     },
-                  ),
+                    child: Row(
+                      children: [
+                        Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),
+                        Icon(Icons.exit_to_app, size: 30, color: Colors.white,),
+                      ],
+                    )
+                  )
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: titulo.map((url) {
-                      int index = titulo.indexOf(url);
-                      return Container(
-                        width: 8.0,
-                        height: 8.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 2.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: paginaAtual == index
-                              ? Color.fromRGBO(0, 0, 0, 0.9)
-                              : Color.fromRGBO(0, 0, 0, 0.4),
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    icones[widget.pagina],
+                    Text(
+                      titulo[widget.pagina],
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Text(
+                        descricao[widget.pagina],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    )
+                  ]
                 ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
-                    onPressed: () async {
-                      if (paginaAtual < 4) {
-                        await pageController.nextPage(
-                            duration: Duration(milliseconds: 200),
-                            curve: Curves.bounceIn);
-                      } else {
+              ],
+            ),   
+          ),
+        )
+      );
+    }
+    else return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: pageController,
+                itemCount: 5,
+                onPageChanged: (index) {
+                  setState(() {
+                    paginaAtual = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Container(
+                    color: randomColor(),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          icones[index],
+                          Text(
+                            titulo[index],
+                            style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(height: 5),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30.0),
+                            child: Text(
+                              descricao[index],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          )
+                        ]),
+                  );
+                },
+              ),
+            ),
+            Container(
+              height: 60,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: FlatButton(
+                      child: Text("Pular"),
+                      onPressed: () async {
                         if (prefs.getBool('firstTimePlaying') ?? true)
                           await prefs.setBool('firstTimePlaying', false);
                         if (jogo == 'menu')
                           Navigator.pop(context);
                         else
                           await Navigator.popAndPushNamed(context, jogo);
-                      }
-                    },
+                      },
+                    ),
                   ),
-                )
-              ],
-            ),
-          )
-        ],
-      )),
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: titulo.map((url) {
+                        int index = titulo.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: paginaAtual == index
+                                ? Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_forward_ios),
+                      onPressed: () async {
+                        if (paginaAtual < 4) {
+                          await pageController.nextPage(
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.bounceIn);
+                        } else {
+                          if (prefs.getBool('firstTimePlaying') ?? true)
+                            await prefs.setBool('firstTimePlaying', false);
+                          if (jogo == 'menu')
+                            Navigator.pop(context);
+                          else
+                            await Navigator.popAndPushNamed(context, jogo);
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        )
+      ),
     );
   }
 }
