@@ -1,3 +1,4 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:improve/main.dart';
 
@@ -7,6 +8,17 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+
+  @override
+  void initState() {
+    DynamicTheme.of(context).setThemeData(
+      ThemeData(
+        primaryColor: Color.fromRGBO(prefs.getInt('improveColorRed') ?? 102, prefs.getInt('improveColorGreen') ?? 178, prefs.getInt('improveColorBlue') ?? 255, 1),
+        textTheme: (prefs.getBool('textBlack') ?? true) ? Typography.blackRedmond : Typography.whiteRedmond
+      )
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

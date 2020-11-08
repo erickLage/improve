@@ -27,10 +27,10 @@ class _Ajuda1State extends State<Ajuda1> {
     'Verifique suas melhores pontuações. Se quiser, cadastre as informações de um especialista e compartilhe seus resultados.'
   ];
   List<Widget> icones = [
-    Icon(Icons.sports_esports, size: 100, color: Colors.white),
+    Icon(Icons.ac_unit, size: 100, color: Colors.white),
     Icon(Icons.face, size: 100, color: Colors.white),
     Icon(Icons.create, size: 100, color: Colors.white),
-    Icon(Icons.sports_esports, size: 100, color: Colors.white),
+    Icon(Icons.ac_unit, size: 100, color: Colors.white),
     Icon(Icons.share, size: 100, color: Colors.white)
   ];
 

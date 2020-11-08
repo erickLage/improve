@@ -29,7 +29,7 @@ class _AjudaState extends State<Ajuda> {
     Image.asset('src/assets/logo_sem_fundo.png', color: Colors.white),
     Icon(Icons.face, size: 100, color: Colors.white),
     Icon(Icons.create, size: 100, color: Colors.white),
-    Icon(Icons.sports_esports, size: 100, color: Colors.white),
+    Icon(Icons.ac_unit, size: 100, color: Colors.white),
     Icon(Icons.share, size: 100, color: Colors.white)
   ];
 
