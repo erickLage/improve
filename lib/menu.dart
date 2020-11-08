@@ -158,7 +158,9 @@ class _MenuState extends State<Menu> {
               ),
               RaisedButton(
                 color: Colors.cyan,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/pontuacao');
+                },
                 child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
@@ -166,7 +168,9 @@ class _MenuState extends State<Menu> {
               ),
               RaisedButton(
                 color: Colors.pink[300],
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/personaliza');
+                },
                 child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,

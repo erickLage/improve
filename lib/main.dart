@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:improve/ajuda1.dart';
+import 'package:improve/personaliza.dart';
+import 'package:improve/pontuacao.dart';
 import 'package:improve/splashScreen.dart';
 import 'package:improve/cadastro.dart';
 import 'package:improve/login.dart';
@@ -29,13 +31,16 @@ class WoranaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'WoranaApp',
+      title: 'ImproveApp',
+      theme: ,
       home: Splash(),
       //Navigation routes
       routes: {
         '/menu': (context) => Menu(),
         '/splash': (context) => Splash(),
         '/cadastro': (context) => Cadastro(),
+        '/pontuacao': (context) => Pontuacao(),
+        '/personaliza': (context) => Personaliza(),
         '/login': (context) => Login(),
         '/ajuda': (context) => Ajuda(),
         '/ajuda1': (context) => Ajuda1(),
