@@ -24,26 +24,23 @@ void main(){
   //prevent device orientation change
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-  ]).then((_) {
+  ]).then((_) async{
+    prefs = await SharedPreferences.getInstance();
     runApp(new ImproveApp());
   });
 }
 
 
-// DynamicTheme.of(context).setThemeData(
-//       ThemeData(
-//         primaryColor: Color.fromRGBO(prefs.getInt('improveColorRed') ?? 102, prefs.getInt('improveColorGreen') ?? 178, prefs.getInt('improveColorBlue') ?? 255, 1),
-//         textTheme: (prefs.getBool('textBlack') ?? true) ? Typography.blackRedmond : Typography.whiteRedmond
-//       )
-//     );
+
 class ImproveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print(prefs.getInt('improveColorRed'));
     return DynamicTheme(
-      data: (brightness) {
+      data: (brightness){
         return ThemeData(
-          primaryColor: Colors.blue,
-          brightness: brightness,
+          primaryColor: Color.fromRGBO(prefs.getInt('improveColorRed') ?? 102, prefs.getInt('improveColorGreen') ?? 178, prefs.getInt('improveColorBlue') ?? 255, 1),
+          textTheme: (prefs.getBool('textBlack') ?? true) ? Typography.blackRedmond : Typography.whiteRedmond
         );
       },
       themedWidgetBuilder: (context, tema) {
