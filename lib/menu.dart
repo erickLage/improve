@@ -1,5 +1,6 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:improve/main.dart';
 
 class Menu extends StatefulWidget {
@@ -13,6 +14,7 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.help_outline, size: 34),
         onPressed: () async {
           await Navigator.pushNamed(context, '/ajuda');

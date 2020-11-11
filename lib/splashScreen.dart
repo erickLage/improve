@@ -28,8 +28,6 @@ class _SplashState extends State<Splash> {
   Future<void> gotoMenu()async{
 
     userFirebase = await FirebaseAuth.instance.currentUser();
-    prefs = await SharedPreferences.getInstance();
-
 
     if(userFirebase != null){
       user = new User.firebase(userFirebase);
