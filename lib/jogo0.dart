@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:improve/ajuda1.dart';
 
@@ -16,107 +18,126 @@ class _Jogo0MenuState extends State<Jogo0Menu> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              Image.asset('src/assets/logo_sem_fundo.png',),
-              Text('Jogo das Imagens', style: TextStyle(fontSize: 20),),
-              SizedBox(height: 50),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Positioned(
+                top: 10,
+                left: 10,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                      Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                    ],
+                  )
+                )
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Nível:', style: TextStyle(fontSize: 18,),),
-                  SizedBox(width: 10),
+                  Image.asset('src/assets/logo_sem_fundo.png',),
+                  Text('Jogo das Imagens', style: TextStyle(fontSize: 20),),
+                  SizedBox(height: 50),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Nível:', style: TextStyle(fontSize: 18,),),
+                      SizedBox(width: 10),
 
-                  Container(
-                    width: 62,
-                    child: RaisedButton(
-                      onPressed: (){
-                        if(nivelSelecionado != 0){
-                          setState(() {
-                            nivelSelecionado = 0;
-                          });
-                        }
-                      }, 
-                      child: Text('Fácil'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: nivelSelecionado != 0 ? Colors.white : Colors.red)
+                      Container(
+                        width: 62,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(nivelSelecionado != 0){
+                              setState(() {
+                                nivelSelecionado = 0;
+                              });
+                            }
+                          }, 
+                          child: Text('Fácil'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: nivelSelecionado != 0 ? Colors.white : Colors.red)
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(width: 10),
+
+                      Container(
+                        width: 72,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(nivelSelecionado != 1){
+                              setState(() {
+                                nivelSelecionado = 1;
+                              });
+                            }
+                          }, 
+                          child: Text('Médio'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: nivelSelecionado != 1 ? Colors.white : Colors.red)
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+
+                      Container(
+                        width: 68,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(nivelSelecionado != 2){
+                              setState(() {
+                                nivelSelecionado = 2;
+                              });
+                            }
+                          }, 
+                          child: Text('Difícil'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: nivelSelecionado != 2 ? Colors.white : Colors.red)
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 10),
-
-                  Container(
-                    width: 72,
-                    child: RaisedButton(
-                      onPressed: (){
-                        if(nivelSelecionado != 1){
-                          setState(() {
-                            nivelSelecionado = 1;
-                          });
-                        }
-                      }, 
-                      child: Text('Médio'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: nivelSelecionado != 1 ? Colors.white : Colors.red)
-                      ),
-                    ),
+                  SizedBox(height: 50),
+                  RaisedButton(
+                    color: Colors.blue,
+                    onPressed: () async {
+                      //await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)), (route) => false);
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width - 100,
+                      child: Text('Jogar')),
                   ),
-                  SizedBox(width: 10),
-
-                  Container(
-                    width: 68,
-                    child: RaisedButton(
-                      onPressed: (){
-                        if(nivelSelecionado != 2){
-                          setState(() {
-                            nivelSelecionado = 2;
-                          });
-                        }
-                      }, 
-                      child: Text('Difícil'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: nivelSelecionado != 2 ? Colors.white : Colors.red)
-                      ),
-                    ),
+                  RaisedButton(
+                    color: Colors.lightGreen[400],
+                    onPressed: () async {
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0Galeria()));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width - 100,
+                      child: Text('Galeria')),
+                  ),
+                  RaisedButton(
+                    color: Colors.pink[300],
+                    onPressed: () async {
+                      await Navigator.pushNamed(context, '/tutorial0');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width - 100,
+                      child: Text('Tutorial')),
                   ),
                 ],
-              ),
-              SizedBox(height: 50),
-              RaisedButton(
-                color: Colors.blue,
-                onPressed: () async {
-                  await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)), (route) => false);
-                  //await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: Text('Jogar')),
-              ),
-              RaisedButton(
-                color: Colors.lightGreen[400],
-                onPressed: () async {
-                  await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0Galeria()));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: Text('Galeria')),
-              ),
-              RaisedButton(
-                color: Colors.pink[300],
-                onPressed: () async {
-                  await Navigator.pushNamed(context, '/tutorial0');
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: Text('Tutorial')),
               ),
             ],
           ),
@@ -135,86 +156,143 @@ class Jogo0 extends StatefulWidget {
 }
 
 class _Jogo0State extends State<Jogo0> {
+  final Random random = new Random();
+  List<String> opcoes = [
+    'computador', 'impressora', 'grampiador', 'copiadora', 'régua', 'saída de emergência', 
+    'cafeteira', 'crachá', 'calculadora', 'teclado', 'pendrive', 'calendário', 'quadro', 
+    'projetor', 'banheiro feminino', 'banheiro masculino', 'escaninho', 'extintor de incêndio' 
+  ];
+  Map resposta = {};
+
+  @override
+  void initState(){
+    opcoes = embaralhaOpcoes(opcoes);
+    resposta = escolherResposta(opcoes.sublist(0, 4));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 10,
-                right: 10,
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.pushNamedAndRemoveUntil(context, '/jogo0', (route) => false);
-                  },
-                  child: Row(
-                    children: [
-                      Text('Sair', style: TextStyle(fontSize: 16,color: Colors.black),),
-                      Icon(Icons.exit_to_app, size: 30, color: Colors.black,),
-                    ],
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                        Text('Sair', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                      ],
+                    )
                   )
-                )
-              ),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 250,
-                      height: 250,
-                      color: Colors.red,
-                    ),
-                    SizedBox(height: 10),
-                    Text('Play pro som'),
-                    SizedBox(height: 30),
-                    Container(
-                      width: 250,
-                      child: RaisedButton(
-                        onPressed: (){
-                        },
-                        child: Text('Opção 1'),
-                      ),
-                    ),
-                    Container(
-                      width: 250,
-                      child: RaisedButton(
-                        onPressed: (){
-                        },
-                        child: Text('Opção 2'),
-                      ),
-                    ),
-                    Container(
-                      width: 250,
-                      child: RaisedButton(
-                        onPressed: (){
-                        },
-                        child: Text('Opção 3'),
-                      ),
-                    ),
-                    Container(
-                      width: 250,
-                      child: RaisedButton(
-                        onPressed: (){
-                        },
-                        child: Text('Opção 4'),
-                      ),
-                    ),
-                  ]
                 ),
-              ),
-            ]
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                        ),
+                        width: 250,
+                        height: 250,
+                        child: Image.asset('src/jogoImagens/'+'escaninho'+'.jpeg', fit: BoxFit.cover,),
+                      ),
+                      SizedBox(height: 10),
+                      Text('Play pro som'),
+                      SizedBox(height: 30),
+                      Container(
+                        width: 250,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(resposta['index'] == 0){
+                              print('Parabéns');
+                            }else{
+                              print('É uma pena. :(');
+                            }
+                          },
+                          child: Text(opcoes[0]),
+                        ),
+                      ),
+                      Container(
+                        width: 250,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(resposta['index'] == 1) print('Parabens');
+                          },
+                          child: Text(opcoes[1]),
+                        ),
+                      ),
+                      Container(
+                        width: 250,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(resposta['index'] == 2) print('Parabens');
+                          },
+                          child: Text(opcoes[2]),
+                        ),
+                      ),
+                      Container(
+                        width: 250,
+                        child: RaisedButton(
+                          onPressed: (){
+                            if(resposta['index'] == 3) print('Parabens');
+                          },
+                          child: Text(opcoes[3]),
+                        ),
+                      ),
+                    ]
+                  ),
+                ),
+              ]
+            ),
           ),
         ),
       ),
     );
   }
+
+  List<String> embaralhaOpcoes(List<String> items){
+    for (int i = items.length - 1; i > 0; i--) {
+
+      int n = random.nextInt(i + 1);
+
+      String temp = items[i];
+      items[i] = items[n];
+      items[n] = temp;
+    }
+
+    return items;
+  }
+
+  Map escolherResposta(List<String> items){
+    String withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž ';
+    String withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz_'; 
+    int index = random.nextInt(4);
+    String palavra = items[index];
+    for (int i = 0; i < withDia.length; i++) {
+      palavra = palavra.replaceAll(withDia[i], withoutDia[i]);
+    }
+
+    return {
+      'palavra': palavra,
+      'index': index,
+    };
+  }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////

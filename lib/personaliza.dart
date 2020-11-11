@@ -22,7 +22,21 @@ class _PersonalizaState extends State<Personaliza> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: FlatButton(
+          padding: EdgeInsets.all(0),
+          child: Row(
+            children: [
+              Icon(Icons.chevron_left, size: 30, color: Colors.white,),
+              Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),        
+            ]
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+        leadingWidth: 74,
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
