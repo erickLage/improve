@@ -16,7 +16,6 @@ class _CadastroState extends State<Cadastro> {
   String _email;
   String _password;
 
-  TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   String _errorText = '';
@@ -26,138 +25,143 @@ class _CadastroState extends State<Cadastro> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 80,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.asset(
-                    'src/assets/logo_sem_fundo.png'
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Text('Cadastre seus dados', style: TextStyle(fontSize: 20),),
-                SizedBox(
-                  height: 10,
-                ),
-                Form(
-                  key: _formkey,
-                  child: Container(
-                    color: Colors.green[50],
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Digite seu nome',
-                          ),
-                          validator: (value) {
-                            if(value.isEmpty){
-                              return 'Por favor, digite um email válido';
-                            }
-                            return null;
-                          },
-                          onSaved: (value){
-                            _name = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: emailController,
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Digite seu email'
-                          ),
-                          validator: (value) {
-                            if(value.isEmpty){
-                              return 'Por favor, digite um email válido';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Confirme seu email'
-                          ),
-                          validator: (value){
-                            if(value != emailController.text){
-                              return 'Emails diferentes';
-                            }
-                            return null;      
-                          },
-                          onSaved: (value) {
-                            _email = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: passwordController,
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Digite sua senha'
-                          ),
-                          validator: (value){
-                            if(value.length < 6){
-                              return 'Mínimo de 6 digitos';
-                            }
-                            return null;      
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Confirme sua senha'
-                          ),
-                          validator: (value){
-                            if(value != passwordController.text){
-                              return 'Senhas diferentes';
-                            }
-                            return null;      
-                          },
-                          onSaved: (value) {
-                            _password = value;
-                          },
-                        ),
-                      ],
+        child: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 22.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.asset(
+                        'src/assets/logo_sem_fundo.png'
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    _errorText, 
-                    style: TextStyle(
-                      color: Colors.red
+                    SizedBox(
+                      height: 40,
                     ),
-                  ),
+                    Text('Cadastre seus dados', style: TextStyle(fontSize: 20),),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                      key: _formkey,
+                      child: Container(
+                        color: Colors.green[50],
+                        child: Column(
+                          children: <Widget>[
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: 'Digite seu nome',
+                              ),
+                              validator: (value) {
+                                if(value.isEmpty){
+                                  return 'Por favor, digite um nome válido';
+                                }
+                                return null;
+                              },
+                              onSaved: (value){
+                                _name = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: 'Digite seu email'
+                              ),
+                              validator: (value) {
+                                if(value.isEmpty){
+                                  return 'Por favor, digite um email válido';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _email = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              controller: passwordController,
+                              textAlign: TextAlign.center,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: 'Digite sua senha'
+                              ),
+                              validator: (value){
+                                if(value.length < 6){
+                                  return 'Mínimo de 6 digitos';
+                                }
+                                return null;      
+                              },
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: 'Confirme sua senha'
+                              ),
+                              validator: (value){
+                                if(value != passwordController.text){
+                                  return 'Senhas diferentes';
+                                }
+                                return null;      
+                              },
+                              onSaved: (value) {
+                                _password = value;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        _errorText, 
+                        style: TextStyle(
+                          color: Colors.red
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                      color: Colors.green,
+                      onPressed: (){
+                        signUp();
+                      },
+                      child: Text('Cadastrar'),
+                    ),
+                  ],
                 ),
-                FlatButton(
-                  color: Colors.green,
-                  onPressed: (){
-                    signUp();
-                  },
-                  child: Text('Botão da Rebeca'),
-                ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                    Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                  ],
+                )
+              )
+            ),
+          ],
         ),
       )
     );

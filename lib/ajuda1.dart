@@ -50,21 +50,6 @@ class _Ajuda1State extends State<Ajuda1> {
             color: randomColor(),
             child: Stack(
               children: [
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.chevron_left, size: 30, color: Colors.white,),
-                        Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),        
-                      ],
-                    )
-                  )
-                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -87,6 +72,21 @@ class _Ajuda1State extends State<Ajuda1> {
                       ),
                     )
                   ]
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.chevron_left, size: 30, color: Colors.white,),
+                        Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),        
+                      ],
+                    )
+                  )
                 ),
               ],
             ),   

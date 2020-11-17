@@ -40,7 +40,6 @@ class ImproveApp extends StatelessWidget {
       data: (brightness){
         return ThemeData(
           primaryColor: Color.fromRGBO(prefs.getInt('improveColorRed') ?? 102, prefs.getInt('improveColorGreen') ?? 178, prefs.getInt('improveColorBlue') ?? 255, 1),
-          textTheme: (prefs.getBool('textBlack') ?? true) ? Typography.blackRedmond : Typography.whiteRedmond
         );
       },
       themedWidgetBuilder: (context, tema) {

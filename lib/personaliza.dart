@@ -72,7 +72,6 @@ class _PersonalizaState extends State<Personaliza> {
                     ThemeData(
                       primaryColor: selectedColor,
                       accentColor: selectedColor,
-                      textTheme: isTextBlack ? Typography.blackRedmond : Typography.whiteRedmond
                     )
                   );
                   prefs.setInt('improveColorRed', selectedColor.red);
