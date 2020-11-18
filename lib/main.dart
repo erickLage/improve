@@ -1,7 +1,7 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import "package:flame/util.dart";
+import "package:flame/flame.dart";
 import 'package:improve/ajuda1.dart';
 import 'package:improve/personaliza.dart';
 import 'package:improve/pontuacao.dart';
@@ -21,9 +21,8 @@ User user = new User();
 SharedPreferences prefs;
 
 void main() async {
-  // Util flameUtil = Util();
-  // await flameUtil.fullScreen();
-  // await flameUtil.setOrientation(DeviceOrientation.portraitUp);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Flame.util.fullScreen();
   WidgetsFlutterBinding.ensureInitialized();
   //prevent device orientation change
   SystemChrome.setPreferredOrientations([
