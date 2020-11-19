@@ -1,5 +1,13 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:improve/main.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+
+enum TtsState { playing, stopped, paused, continued }
 
 class Jogo0Menu extends StatefulWidget {
   @override
@@ -159,18 +167,119 @@ class _Jogo0State extends State<Jogo0> {
     'computador', 'impressora', 'grampeador', 'elevador', 'régua', 'saída de emergência', 
     'cafeteira', 'crachá', 'calculadora', 'teclado', 'pendrive', 'calendário', 'quadro', 
     'projetor', 'banheiro feminino', 'banheiro masculino', 'escaninho', 'extintor de incêndio',
-    'bebedouro', 'cadeira',
+    'bebedouro', 'cadeira', 'reunião', 'mesa', 'papéis', 'caneta',
   ];
   Map resposta = {};
   int fase = 0;
   Color selectedColor;
   bool isTextBlack;
+  int pontuacao = 0;
+  Stopwatch tempo = new Stopwatch();
+
+  FlutterTts audio;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+
+  String _newVoiceText;
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+  get isPaused => ttsState == TtsState.paused;
+
+  get isContinued => ttsState == TtsState.continued;
 
   @override
   void initState(){
     opcoes = embaralhaOpcoes(opcoes);
     resposta = escolherResposta(opcoes.sublist(0, 4));
+    initTts();
     super.initState();
+  }
+
+  initTts() {
+    audio = FlutterTts();
+
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        _getEngines();
+      }
+    }
+
+    audio.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    audio.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    audio.setCancelHandler(() {
+      setState(() {
+        print("Cancel");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    if (kIsWeb || Platform.isIOS) {
+      audio.setPauseHandler(() {
+        setState(() {
+          print("Paused");
+          ttsState = TtsState.paused;
+        });
+      });
+
+      audio.setContinueHandler(() {
+        setState(() {
+          print("Continued");
+          ttsState = TtsState.continued;
+        });
+      });
+    }
+
+    audio.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _getEngines() async {
+    var engines = await audio.getEngines;
+    if (engines != null) {
+      for (dynamic engine in engines) {
+        print(engine);
+      }
+    }
+  }
+
+  Future _speak() async {
+
+    await audio.setPitch(1);
+    await audio.setSpeechRate(1);
+    await audio.setLanguage('pt-BR');
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        await audio.awaitSpeakCompletion(true);
+        await audio.speak(_newVoiceText);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    audio.stop();
   }
 
   @override
@@ -182,6 +291,8 @@ class _Jogo0State extends State<Jogo0> {
 
   @override
   Widget build(BuildContext context) {
+    tempo.start();
+    _newVoiceText = opcoes[fase+resposta['index']];
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async => false,
@@ -206,98 +317,98 @@ class _Jogo0State extends State<Jogo0> {
                         child: Image.asset('src/jogoImagens/'+resposta['palavra']+'.jpg', fit: BoxFit.cover,),
                       ),
                       SizedBox(height: 10),
-                      Text('Play pro som', style: TextStyle(color: Colors.black)),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                          children: [
+                            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                            Icons.play_arrow, 'Ouvir som', _speak),
+                          ]
+                        )
+                      ),
                       SizedBox(height: 30),
                       Container(
                         width: 250,
-                        child: RaisedButton(
-                          onPressed: (){
-                            if(resposta['index'] == 0){
-                              print('Parabéns');
-                            }else{
-                              print('É uma pena. :(');
-                            }
-                            if(fase < 16){
-                              setState(() {
-                                fase+=4;
-                                resposta = escolherResposta(opcoes.sublist(fase, fase+4));
-                              });
-                            }else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(opcoes[fase], style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
-                          color: selectedColor,
-                        ),
-                      ),
-                      Container(
-                        width: 250,
-                        child: RaisedButton(
-                          onPressed: (){
-                            if(resposta['index'] == 1){
-                              print('Parabéns');
-                            }else{
-                              print('É uma pena. :(');
-                            }
-                            if(fase < 16){
-                              setState(() {
-                                fase+=4;
-                                resposta = escolherResposta(opcoes.sublist(fase, fase+4));
-                              });
-                            }else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(opcoes[fase+1], style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
-                          color: selectedColor,
-                        ),
-                      ),
-                      Container(
-                        width: 250,
-                        child: RaisedButton(
-                          onPressed: (){
-                            if(resposta['index'] == 2){
-                              print('Parabéns');
-                            }else{
-                              print('É uma pena. :(');
-                            }                      
-                            if(fase < 16){
-                              setState(() {
-                                fase+=4;
-                                resposta = escolherResposta(opcoes.sublist(fase, fase+4));
-                              });
-                            }else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(opcoes[fase+2], style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
-                          color: selectedColor,
-                        ),
-                      ),
-                      Container(
-                        width: 250,
-                        child: RaisedButton(
-                          onPressed: (){
-                            if(resposta['index'] == 3){
-                              print('Parabéns');
-                            }else{
-                              print('É uma pena. :(');
-                            }
-                            if(fase < 16){
-                              setState(() {
-                                fase+=4;
-                                resposta = escolherResposta(opcoes.sublist(fase, fase+4));
-                              });
-                            }else{
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(opcoes[fase+3], style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
-                          color: selectedColor,
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          itemBuilder: (context, index){
+                            return Container(
+                              width: 250,
+                              child: RaisedButton(
+                                onPressed: () async{
+                                  tempo.stop();
+                                  if(resposta['index'] == index){
+                                    pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                                  }else{
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context){
+                                        return AlertDialog(
+                                          title: Text('Você ERROU!!!'),
+                                          content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${opcoes[fase+resposta['index']]}'),
+                                          actions: [
+                                            FlatButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              }, 
+                                              child: Text('Ok :(')
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    );
+                                  }
+                                  tempo.reset();
+                                  if(fase < 16){
+                                    setState(() {
+                                      fase+=4;
+                                      resposta = escolherResposta(opcoes.sublist(fase, fase+4));
+                                    });
+                                  }else{
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context){
+                                        return AlertDialog(
+                                          backgroundColor: selectedColor,
+                                          title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                          content: Container(
+                                            child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                          ),
+                                          actions: [
+                                            FlatButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              }, 
+                                              child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    );
+                                    user.setPontuacoes({
+                                      'pontuacao': pontuacao,
+                                      'data': Timestamp.fromDate(DateTime.now()),
+                                    });
+                                    await user.saveFirestore();
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Text(opcoes[fase+index], style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                color: selectedColor,
+                              ),
+                            );
+                          }
                         ),
                       ),
                     ]
                   ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
                 ),
                 Positioned(
                   top: 10,
@@ -350,6 +461,31 @@ class _Jogo0State extends State<Jogo0> {
     };
   }
 
+  Column _buildButtonColumn(Color color, Color splashColor, IconData icon, String label, Function func) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(icon),
+          color: color,
+          splashColor: splashColor,
+          onPressed: () => func()
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 2.0),
+          child: Text(label,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: color
+            )
+          )
+        )
+      ] 
+    );
+  }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -361,14 +497,118 @@ class Jogo0Galeria extends StatefulWidget {
 
 class _Jogo0GaleriaState extends State<Jogo0Galeria> {
 
+  FlutterTts audio;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
+
+  String _newVoiceText;
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+  get isPaused => ttsState == TtsState.paused;
+
+  get isContinued => ttsState == TtsState.continued;
+
   List<String> opcoes = [
     'computador', 'impressora', 'grampeador', 'elevador', 'régua', 'saída de emergência', 
     'cafeteira', 'crachá', 'calculadora', 'teclado', 'pendrive', 'calendário', 'quadro', 
     'projetor', 'banheiro feminino', 'banheiro masculino', 'escaninho', 'extintor de incêndio',
-    'bebedouro', 'cadeira',
+    'bebedouro', 'cadeira', 'reunião', 'mesa', 'papéis', 'caneta'
   ];
   Color selectedColor;
   bool isTextBlack;
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    audio = FlutterTts();
+
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        _getEngines();
+      }
+    }
+
+    audio.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    audio.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    audio.setCancelHandler(() {
+      setState(() {
+        print("Cancel");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    if (kIsWeb || Platform.isIOS) {
+      audio.setPauseHandler(() {
+        setState(() {
+          print("Paused");
+          ttsState = TtsState.paused;
+        });
+      });
+
+      audio.setContinueHandler(() {
+        setState(() {
+          print("Continued");
+          ttsState = TtsState.continued;
+        });
+      });
+    }
+
+    audio.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _getEngines() async {
+    var engines = await audio.getEngines;
+    if (engines != null) {
+      for (dynamic engine in engines) {
+        print(engine);
+      }
+    }
+  }
+
+  Future _speak() async {
+
+    await audio.setPitch(1);
+    await audio.setSpeechRate(1);
+    await audio.setLanguage('pt-BR');
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        await audio.awaitSpeakCompletion(true);
+        await audio.speak(_newVoiceText);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    audio.stop();
+  }
 
   @override
   void didChangeDependencies() {
@@ -390,24 +630,120 @@ class _Jogo0GaleriaState extends State<Jogo0Galeria> {
               Padding(
                 padding: EdgeInsets.only(top: 50),
                 child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: 12,
                   itemBuilder: (context, index) {
                     String imagem1 = nomeArquivo(opcoes[index]);
-                    String imagem2 = nomeArquivo(opcoes[index+10]);
+                    String imagem2 = nomeArquivo(opcoes[index+12]);
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(10, 0, 5, 10),
-                          child: Image.asset('src/jogoImagens/'+imagem1+'.jpg', fit: BoxFit.cover),
-                          width: MediaQuery.of(context).size.width/2,
-                          height: MediaQuery.of(context).size.width/2,
+                        GestureDetector(
+                          onTap: () async{
+                            _newVoiceText = opcoes[index];
+                            await showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                                  content: Container(
+                                    width: 270,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          height: 250,
+                                          child: Image.asset('src/jogoImagens/'+imagem1+'.jpg', fit: BoxFit.cover)
+                                        ),
+                                        SizedBox(height: 5),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                                            children: [
+                                              _buildButtonColumn(Colors.green, Colors.greenAccent,
+                                              Icons.play_arrow, 'Ouvir som', _speak),
+                                            ]
+                                          )
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(opcoes[index], style: TextStyle(fontSize: 18),)
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Voltar'),
+                                    )
+                                  ],
+                                );
+                              }
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(10, 0, 5, 10),
+                            child: Image.asset('src/jogoImagens/'+imagem1+'.jpg', fit: BoxFit.cover),
+                            width: MediaQuery.of(context).size.width/2,
+                            height: MediaQuery.of(context).size.width/2,
+                          ),
                         ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(5, 0, 10, 10),
-                          child: Image.asset('src/jogoImagens/'+imagem2+'.jpg', fit: BoxFit.cover),
-                          width: MediaQuery.of(context).size.width/2,
-                          height: MediaQuery.of(context).size.width/2,
+                        GestureDetector(
+                          onTap: () async{
+                            _newVoiceText = opcoes[index+12];
+                            await showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                                  content: Container(
+                                    width: 270,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          height: 250,
+                                          child: Image.asset('src/jogoImagens/'+imagem2+'.jpg', fit: BoxFit.cover)
+                                        ),
+                                        SizedBox(height: 5),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                                            children: [
+                                              _buildButtonColumn(Colors.green, Colors.greenAccent,
+                                              Icons.play_arrow, 'Ouvir som', _speak),
+                                            ]
+                                          )
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(opcoes[index+12], style: TextStyle(fontSize: 20),)
+                                      ],
+                                    ),
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Voltar'),
+                                    )
+                                  ],
+                                );
+                              }
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(5, 0, 10, 10),
+                            child: Image.asset('src/jogoImagens/'+imagem2+'.jpg', fit: BoxFit.cover),
+                            width: MediaQuery.of(context).size.width/2,
+                            height: MediaQuery.of(context).size.width/2,
+                          ),
                         ),
                       ],
                     );
@@ -435,6 +771,32 @@ class _Jogo0GaleriaState extends State<Jogo0Galeria> {
       ),
     );
   }
+
+  Column _buildButtonColumn(Color color, Color splashColor, IconData icon, String label, Function func) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(icon),
+          color: color,
+          splashColor: splashColor,
+          onPressed: () => func()
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 2.0),
+          child: Text(label,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: color
+            )
+          )
+        )
+      ] 
+    );
+  }
+
 
   String nomeArquivo(String item){
     String withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž ';

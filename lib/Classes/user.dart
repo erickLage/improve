@@ -5,6 +5,7 @@ class User{
   String _id;
   String _name;
   String _email;
+  List<Map> _pontuacoes = [];
 
   User(){
     _id = '-1';
@@ -31,6 +32,10 @@ class User{
     _email = newEmail;
   }
 
+  void setPontuacoes(Map pontuacao){
+    _pontuacoes.add(pontuacao);
+  } 
+
   String getID(){
     return _id;
   }
@@ -43,12 +48,17 @@ class User{
     return _email;
   }
 
+  List<Map> getPontuacoes(){
+    return _pontuacoes;
+  }
+
   //recover user information on Firestore
   Future<bool> loadFirestore() async{
     try{
       await Firestore.instance.collection('users').document(this._id).get().then((DocumentSnapshot ds){
         this._email = ds.data['email'].toString();
-        this._name = ds.data['name'].toString(); 
+        this._name = ds.data['name'].toString();
+        this._pontuacoes = List<Map>.from(ds.data['pontuacoes'] ?? []);
       });
       return true;
     }catch(e){
@@ -60,7 +70,7 @@ class User{
   //update user information on Firestore
   Future<bool> saveFirestore() async{
     await Firestore.instance.collection('users').document(this._id).setData({
-      'email': this._email, 'name': this._name
+      'email': this._email, 'name': this._name, 'pontuacoes': this._pontuacoes
     }, merge: true).catchError((e){
       print(e);
       return true;

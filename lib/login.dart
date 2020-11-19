@@ -75,8 +75,8 @@ class _LoginState extends State<Login> {
                                 hintText: 'Digite sua senha'
                               ),
                               validator: (value){
-                                if(value.length < 2){
-                                  return 'Mínimo de 2 digitos';
+                                if(value.length < 6){
+                                  return 'Mínimo de 6 digitos';
                                 }
                                 return null;      
                               },
