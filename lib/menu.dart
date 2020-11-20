@@ -162,7 +162,7 @@ class _MenuState extends State<Menu> {
               RaisedButton(
                 color: Colors.cyan,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/pontuacao');
+                  Navigator.pushNamed(context, '/pontuacao', arguments: user);
                 },
                 child: Container(
                     alignment: Alignment.center,
