@@ -184,6 +184,9 @@ class _Jogo0State extends State<Jogo0> {
   String _newVoiceText;
   TtsState ttsState = TtsState.stopped;
 
+  TextEditingController textEditingController = new TextEditingController();
+  String respostaUser = '';
+
   get isPlaying => ttsState == TtsState.playing;
 
   get isStopped => ttsState == TtsState.stopped;
@@ -291,8 +294,25 @@ class _Jogo0State extends State<Jogo0> {
 
   @override
   Widget build(BuildContext context) {
-    tempo.start();
-    _newVoiceText = opcoes[fase+resposta['index']];
+    switch (widget.nivel) {
+      case 0:
+        tempo.start();
+        _newVoiceText = opcoes[fase+resposta['index']];
+        return nivelFacil();
+        break;
+      case 1:
+        tempo.start();
+        return nivelMedio();
+        break;
+      case 2:
+        return nivelDificil();
+        break;
+      default:
+        return null;
+    }
+  }
+  
+  Widget nivelFacil(){
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async => false,
@@ -314,7 +334,7 @@ class _Jogo0State extends State<Jogo0> {
                         ),
                         width: 250,
                         height: 250,
-                        child: Image.asset('src/jogoImagens/'+resposta['palavra']+'.jpg', fit: BoxFit.cover,),
+                        child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover,),
                       ),
                       SizedBox(height: 10),
                       Container(
@@ -347,7 +367,7 @@ class _Jogo0State extends State<Jogo0> {
                                       builder: (context){
                                         return AlertDialog(
                                           title: Text('Você ERROU!!!'),
-                                          content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${opcoes[fase+resposta['index']]}'),
+                                          content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
                                           actions: [
                                             FlatButton(
                                               onPressed: (){
@@ -388,6 +408,8 @@ class _Jogo0State extends State<Jogo0> {
                                       }
                                     );
                                     user.setPontuacoes({
+                                      'jogo': 0,
+                                      'nivel': 0,
                                       'pontuacao': pontuacao,
                                       'data': Timestamp.fromDate(DateTime.now()),
                                     });
@@ -433,6 +455,390 @@ class _Jogo0State extends State<Jogo0> {
     );
   }
 
+  Widget nivelMedio(){
+    return Scaffold(
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                        ),
+                        child: Text(resposta['palavra'], textAlign: TextAlign.center, style: TextStyle(fontSize: 26),)
+                      ),
+                      SizedBox(height: 50),
+                      Text('Qual é a imagem correta?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                      SizedBox(height: 10),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 2,
+                          itemBuilder: (context, index){
+                            String imagem1 = nomeArquivo(opcoes[fase+index]);
+                            String imagem2 = nomeArquivo(opcoes[fase+index+2]);                      
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                  onTap:() async{
+                                    tempo.stop();
+                                    if(resposta['index'] == index){
+                                      pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                                    }else{
+                                      await showDialog(
+                                        context: context,
+                                        builder: (context){
+                                          return AlertDialog(
+                                            title: Text('Você ERROU!!!'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children:[
+                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                                SizedBox(height: 10),
+                                                Container(   
+                                                  child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover),
+                                                  width: MediaQuery.of(context).size.width/2.2,
+                                                  height: MediaQuery.of(context).size.width/2.2,
+                                                ),
+                                              ]
+                                            ),
+                                            actions: [
+                                              FlatButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                }, 
+                                                child: Text('Ok :(')
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      );
+                                    }
+                                    tempo.reset();
+                                    if(fase < 16){
+                                      setState(() {
+                                        fase+=4;
+                                        resposta = escolherResposta(opcoes.sublist(fase, fase+4));
+                                      });
+                                    }else{
+                                      await showDialog(
+                                        context: context,
+                                        builder: (context){
+                                          return AlertDialog(
+                                            backgroundColor: selectedColor,
+                                            title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                            content: Container(
+                                              child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                            ),
+                                            actions: [
+                                              FlatButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                }, 
+                                                child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      );
+                                      user.setPontuacoes({
+                                        'jogo': 0,
+                                        'nivel': 1,
+                                        'pontuacao': pontuacao,
+                                        'data': Timestamp.fromDate(DateTime.now()),
+                                      });
+                                      await user.saveFirestore();
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 5, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 3, color: Theme.of(context).primaryColor),
+                                      ),
+                                      child: Image.asset('src/jogoImagens/'+imagem1+'.jpg', fit: BoxFit.cover),
+                                      width: MediaQuery.of(context).size.width/2.2,
+                                      height: MediaQuery.of(context).size.width/2.2,
+                                    ),
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                  onTap:() async{
+                                    tempo.stop();
+                                    if(resposta['index'] == index+2){
+                                      pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                                    }else{
+                                      await showDialog(
+                                        context: context,
+                                        builder: (context){
+                                          return AlertDialog(
+                                            title: Text('Você ERROU!!!'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children:[
+                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                                SizedBox(height: 10),
+                                                Container(   
+                                                  child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover),
+                                                  width: MediaQuery.of(context).size.width/2.2,
+                                                  height: MediaQuery.of(context).size.width/2.2,
+                                                ),
+                                              ]
+                                            ),
+                                            actions: [
+                                              FlatButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                }, 
+                                                child: Text('Ok :(')
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      );
+                                    }
+                                    tempo.reset();
+                                    if(fase < 16){
+                                      setState(() {
+                                        fase+=4;
+                                        resposta = escolherResposta(opcoes.sublist(fase, fase+4));
+                                      });
+                                    }else{
+                                      await showDialog(
+                                        context: context,
+                                        builder: (context){
+                                          return AlertDialog(
+                                            backgroundColor: selectedColor,
+                                            title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                            content: Container(
+                                              child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                            ),
+                                            actions: [
+                                              FlatButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                }, 
+                                                child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      );
+                                      user.setPontuacoes({
+                                        'jogo': 0,
+                                        'nivel': 1,
+                                        'pontuacao': pontuacao,
+                                        'data': Timestamp.fromDate(DateTime.now()),
+                                      });
+                                      await user.saveFirestore();
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 5, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 3, color: Theme.of(context).primaryColor),
+                                      ),
+                                      child: Image.asset('src/jogoImagens/'+imagem2+'.jpg', fit: BoxFit.cover),
+                                      width: MediaQuery.of(context).size.width/2.2,
+                                      height: MediaQuery.of(context).size.width/2.2,
+                                    ),
+                                  ),
+                                ),
+                              ]
+                            );
+                          }
+                        ),
+                      ),
+                    ]
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                        Text('Sair', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                      ],
+                    )
+                  )
+                ),
+              ]
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget nivelDificil(){
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 60),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+                            ),
+                            width: 250,
+                            height: 250,
+                            child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover,),
+                          ),                   
+                          SizedBox(height: 50),
+                          Container(
+                            width: 250,
+                            child: TextField(
+                              controller: textEditingController,
+                              decoration: InputDecoration(
+                                hintText: 'Escreva o nome da imagem'
+                              ),
+                              onChanged: (s){
+                                respostaUser = s;
+                              }
+                            )
+                          ),
+                          SizedBox(height: 20),
+                          RaisedButton(
+                            onPressed: () async{
+                              if(respostaUser.toLowerCase() == resposta['palavra']){
+                                pontuacao+= 60;
+                              }else if(semAcento(respostaUser.toLowerCase()) == semAcento(resposta['palavra'])){
+                                pontuacao+=30;
+                              }else{
+                                await showDialog(
+                                  context: context,
+                                  builder: (context){
+                                    return AlertDialog(
+                                      title: Text('Você ERROU!!!'),
+                                      content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                      actions: [
+                                        FlatButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          }, 
+                                          child: Text('Ok :(')
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                );
+                              }
+                              respostaUser = '';
+                              textEditingController.clear();
+                              if(fase < 16){
+                                setState(() {
+                                  fase+=4;
+                                  resposta = escolherResposta(opcoes.sublist(fase, fase+4));
+                                });
+                              }else{
+                                await showDialog(
+                                  context: context,
+                                  builder: (context){
+                                    return AlertDialog(
+                                      backgroundColor: selectedColor,
+                                      title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                      content: Container(
+                                        child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                      ),
+                                      actions: [
+                                        FlatButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          }, 
+                                          child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                );
+                                user.setPontuacoes({
+                                  'jogo': 0,
+                                  'nivel': 0,
+                                  'pontuacao': pontuacao,
+                                  'data': Timestamp.fromDate(DateTime.now()),
+                                });
+                                await user.saveFirestore();
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text('Enviar resposta', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                            color: selectedColor,
+                          ),
+                        ]
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                  ),
+                  Positioned(
+                    top: 10,
+                    left: 10,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                          Text('Sair', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                        ],
+                      )
+                    )
+                  ),
+                ]
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   List<String> embaralhaOpcoes(List<String> items){
     for (int i = items.length - 1; i > 0; i--) {
 
@@ -446,15 +852,27 @@ class _Jogo0State extends State<Jogo0> {
     return items;
   }
 
-  Map escolherResposta(List<String> items){
+  String nomeArquivo(String palavra){
     String withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž ';
     String withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz_'; 
-    int index = random.nextInt(4);
-    String palavra = items[index];
     for (int i = 0; i < withDia.length; i++) {
       palavra = palavra.replaceAll(withDia[i], withoutDia[i]);
     }
+    return palavra;
+  }
 
+  String semAcento(String palavra){
+    String withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    String withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz'; 
+    for (int i = 0; i < withDia.length; i++) {
+      palavra = palavra.replaceAll(withDia[i], withoutDia[i]);
+    }
+    return palavra;
+  }
+
+  Map escolherResposta(List<String> items){
+    int index = random.nextInt(4);
+    String palavra = items[index];
     return {
       'palavra': palavra,
       'index': index,
