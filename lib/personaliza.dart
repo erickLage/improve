@@ -24,6 +24,7 @@ class _PersonalizaState extends State<Personaliza> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: FlatButton(
           padding: EdgeInsets.all(0),
           child: Row(

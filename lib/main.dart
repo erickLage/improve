@@ -36,14 +36,31 @@ void main() async {
 class ImproveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(prefs.getInt('improveColorRed'));
     return DynamicTheme(data: (brightness) {
+      List<int> colors = [
+        prefs.getInt('improveColorRed') ?? 102, 
+        prefs.getInt('improveColorGreen') ?? 178,
+        prefs.getInt('improveColorBlue') ?? 255
+      ];
       return ThemeData(
         primaryColor: Color.fromRGBO(
-            prefs.getInt('improveColorRed') ?? 102,
-            prefs.getInt('improveColorGreen') ?? 178,
-            prefs.getInt('improveColorBlue') ?? 255,
+            colors[0],
+            colors[1],
+            colors[2],
             1),
+        accentColor: prefs.getBool('textBlack')
+          ? Color.fromRGBO(
+            colors[0] - ((colors[0])/3).round(), 
+            colors[1] - ((colors[1])/3).round(), 
+            colors[2] - ((colors[2])/3).round(),  
+            1
+          )
+          : Color.fromRGBO(
+            colors[0] + ((255 - colors[0])/3).round(), 
+            colors[1] + ((255 - colors[1])/3).round(), 
+            colors[2] + ((255 - colors[2])/3).round(),  
+            1
+          )
       );
     }, themedWidgetBuilder: (context, tema) {
       return new MaterialApp(
