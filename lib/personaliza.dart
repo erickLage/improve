@@ -10,6 +10,7 @@ class Personaliza extends StatefulWidget {
 // primaryColor: Theme.of(context).primaryColor == Colors.purple ? Colors.red : Colors.purple,
 class _PersonalizaState extends State<Personaliza> {
   Color selectedColor;
+  Color accentColor;
   bool isTextBlack;
 
   @override
@@ -48,8 +49,31 @@ class _PersonalizaState extends State<Personaliza> {
                   setState(() {
                     selectedColor = newColor;
                     isTextBlack = (selectedColor.red + selectedColor.green + selectedColor.blue) > 382.5 || (selectedColor.green > selectedColor.red + selectedColor.blue && selectedColor.green > 170);
+                    accentColor = isTextBlack 
+                      ? Color.fromRGBO(
+                        selectedColor.red - ((selectedColor.red)/3).round(), 
+                        selectedColor.green - ((selectedColor.green)/3).round(), 
+                        selectedColor.blue - ((selectedColor.blue)/3).round(),  
+                        1
+                      )
+                      : Color.fromRGBO(
+                        selectedColor.red + ((255 - selectedColor.red)/3).round(), 
+                        selectedColor.green + ((255 - selectedColor.green)/3).round(), 
+                        selectedColor.blue + ((255 - selectedColor.blue)/3).round(),  
+                        1
+                      );
                   });
                 },
+              ),
+              Container(
+                height: 25,
+                width: 40,
+                color: selectedColor,
+              ),
+              Container(
+                height: 15,
+                width: 40,
+                color: accentColor,
               ),
               FlatButton(
                 child: Text('Confirmar'),
@@ -57,7 +81,8 @@ class _PersonalizaState extends State<Personaliza> {
                   DynamicTheme.of(context).setThemeData(
                     ThemeData(
                       primaryColor: selectedColor,
-                      accentColor: selectedColor,
+                      indicatorColor: accentColor,
+                      accentColor: accentColor,
                       textTheme: isTextBlack ? Typography.blackRedmond : Typography.whiteRedmond
                     )
                   );
