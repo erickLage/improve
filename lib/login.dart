@@ -22,95 +22,115 @@ class _LoginState extends State<Login> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 80,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.asset(
-                    'src/assets/logo_sem_fundo.png'
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Text('Entre com seu email e senha:', style: TextStyle(fontSize: 20),),
-                SizedBox(
-                  height: 10,
-                ),
-                Form(
-                  key: _formkey,
-                  child: Container(
-                    color: Colors.blue[50],
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Digite seu email'
-                          ),
-                          validator: (value) {
-                            if(value.isEmpty){
-                              return 'Por favor, digite um email válido';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _email = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            hintText: 'Digite sua senha'
-                          ),
-                          validator: (value){
-                            if(value.length < 2){
-                              return 'Mínimo de 2 digitos';
-                            }
-                            return null;      
-                          },
-                          onSaved: (value) {
-                            _password = value;
-                          },
-                        ),
-                      ],
+        child: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 22.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.asset(
+                        'src/assets/logo_sem_fundo.png'
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    _errorText, 
-                    style: TextStyle(
-                      color: Colors.red
+                    SizedBox(
+                      height: 40,
                     ),
-                  ),
+                    Text('Entre com seu email e senha:', style: TextStyle(fontSize: 20),),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                      key: _formkey,
+                      child: Container(
+                        color: Colors.blue[50],
+                        child: Column(
+                          children: <Widget>[
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: 'Digite seu email'
+                              ),
+                              validator: (value) {
+                                if(value.isEmpty){
+                                  return 'Por favor, digite um email válido';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _email = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: 'Digite sua senha'
+                              ),
+                              validator: (value){
+                                if(value.length < 6){
+                                  return 'Mínimo de 6 digitos';
+                                }
+                                return null;      
+                              },
+                              onSaved: (value) {
+                                _password = value;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        _errorText, 
+                        style: TextStyle(
+                          color: Colors.red
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                      color: Colors.blue,
+                      onPressed: (){
+                        signIn();
+                      },
+                      child: Text('Entrar'),
+                    ),
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      child: Text("Cadastrar-se", style: TextStyle(color: Colors.green),),
+                      onTap: () async{
+                        await Navigator.pushNamed(context, '/cadastro');
+                      },
+                    ),
+                  ],
                 ),
-                FlatButton(
-                  color: Colors.blue,
-                  onPressed: (){
-                    signIn();
-                  },
-                  child: Text('Entrar'),
-                ),
-                SizedBox(height: 10),
-                GestureDetector(
-                  child: Text("Cadastrar-se", style: TextStyle(color: Colors.green),),
-                  onTap: () async{
-                    await Navigator.pushNamed(context, '/cadastro');
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              top: 10,
+              left: 10,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.chevron_left, size: 30, color: Colors.black,),
+                    Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.black),),        
+                  ],
+                )
+              )
+            ),
+          ],
         ),
       )
     );
