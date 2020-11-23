@@ -103,42 +103,6 @@ class _MenuState extends State<Menu> {
                                   ),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.red[200],
-                                    ),
-                                    onTap: () {
-                                      if (prefs.getBool('firstTimePlaying') ??
-                                          true)
-                                        Navigator.pushNamed(context, '/ajuda1',
-                                            arguments: '/jogo2');
-                                      else
-                                        Navigator.pushNamed(context, "/jogo2");
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.red[300],
-                                    ),
-                                    onTap: () {
-                                      if (prefs.getBool('firstTimePlaying') ??
-                                          true)
-                                        Navigator.pushNamed(context, '/ajuda1',
-                                            arguments: '/jogo3');
-                                      else
-                                        Navigator.pushNamed(context, "/jogo3");
-                                    },
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
