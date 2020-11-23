@@ -27,11 +27,9 @@ class _PersonalizaState extends State<Personaliza> {
         automaticallyImplyLeading: false,
         leading: FlatButton(
           padding: EdgeInsets.all(0),
-          child: Row(
-            children: [
-              Icon(Icons.chevron_left, size: 30, color: Colors.white,),
-              Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),        
-            ]
+          child: Container(
+            width: 74,
+            child: Icon(Icons.chevron_left, size: 30, color: Colors.white,),
           ),
           onPressed: (){
             Navigator.pop(context);
