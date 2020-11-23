@@ -14,8 +14,6 @@ import 'package:improve/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:improve/jogo0.dart';
 import 'package:improve/jogo1.dart';
-import 'package:improve/jogo2.dart';
-import 'package:improve/jogo3.dart';
 
 User user = new User();
 SharedPreferences prefs;
@@ -91,8 +89,6 @@ class ImproveApp extends StatelessWidget {
               ),
           '/jogo0': (context) => Jogo0Menu(),
           '/jogo1': (context) => Jogo1Menu(),
-          '/jogo2': (context) => Jogo2Menu(),
-          '/jogo3': (context) => Jogo3Menu(),
         },
       );
     });

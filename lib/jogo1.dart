@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -173,16 +175,131 @@ class Jogo1 extends StatefulWidget {
 }
 
 class _Jogo1State extends State<Jogo1> {
-  Future<bool> ready;
-  @override
-  void initState() {
-    ready = flameRun();
-    super.initState();
-  }
+
+
+  List<String> opcoes = [
+    'computador', 'impressora', 'grampeador', 'elevador', 'régua', 'saída de emergência', 
+    'cafeteira', 'crachá', 'calculadora', 'teclado', 'pendrive', 'calendário', 'quadro', 
+    'projetor', 'banheiro feminino', 'banheiro masculino', 'escaninho', 'extintor de incêndio',
+    'bebedouro', 'cadeira', 'reunião', 'mesa', 'papéis', 'caneta',
+  ];
+  
+  String texto1 = 'não cu';
+  String texto2 = 'aqui n';
+  String texto3 = 'cu';
+  
+  Color corInicial = Colors.grey;
 
   @override
-  Widget build(BuildContext context) {}
-  Future<bool> flameRun() async {
-    return true;
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Theme.of(context).primaryColor,
+        child: Column(
+          children: [
+            SizedBox(height: 100),
+            Text('Coloque o papelzinho na impressorazinha'),
+            Container(
+              padding: EdgeInsets.all(10),
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Draggable<String>(
+                  data: 'papeis',
+                  child: Container(
+                    height: 75,
+                    width: 75,
+                    child: Image.asset('src/jogoImagens/papeis.jpg', fit: BoxFit.cover,),
+                  ),
+                  childWhenDragging: Container(
+                    height: 75,
+                    width: 75,
+                    color: Colors.grey
+                  ),
+                  feedback:  Container(
+                    height: 75,
+                    width: 75,
+                    child: Image.asset('src/jogoImagens/papeis.jpg', fit: BoxFit.cover,),
+                  ),
+                )
+              ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.all(10),
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: DragTarget<String>(
+                      onWillAccept: (data) => false,
+                      onLeave: (data){
+                        setState(() {
+                          corInicial = Colors.red;
+                        });
+                      },
+                      builder: (context, color, list){
+                        return Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('src/jogoImagens/teclado.jpg', fit: BoxFit.cover)
+                        );
+                      },
+                    )
+                  ),
+                  Container(
+                    child: DragTarget<String>(
+                      onWillAccept: (data) => false,
+                      onLeave: (data) {
+                        setState(() {
+                          corInicial = Colors.red;
+                        });
+                      },
+                      builder: (context, color, list){
+                        return Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('src/jogoImagens/escaninho.jpg', fit: BoxFit.cover,),
+                        );
+                      },
+                    )
+                  ),
+                  Container(
+                    child: DragTarget<String>(
+                      onWillAccept: (data) => data.compareTo('papeis') == 0,
+                      onAccept: (data){
+                        setState(() {
+                          corInicial = Colors.green;
+                        });
+                      },
+                      builder: (context, color, list){
+                        return Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('src/jogoImagens/impressora.jpg', fit: BoxFit.cover,),
+                        );
+                      },
+                    )
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: corInicial,
+              height: 100,
+              width: 100,
+            )
+          ],
+        ),
+      )
+    );
   }
+}
+
+Color randomColor() {
+  Random rng = new Random();
+  return Color.fromRGBO(
+      rng.nextInt(256), rng.nextInt(256), rng.nextInt(256), 1);
 }

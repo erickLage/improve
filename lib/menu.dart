@@ -68,7 +68,8 @@ class _MenuState extends State<Menu> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
-                                mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     children: [
@@ -79,14 +80,22 @@ class _MenuState extends State<Menu> {
                                           color: Colors.red[50],
                                         ),
                                         onTap: () {
-                                          if (prefs.getBool('firstTimePlaying') ??  true)
-                                                Navigator.pushNamed(context, '/ajuda1', arguments: '/jogo0');
+                                          if (prefs.getBool(
+                                                  'firstTimePlaying') ??
+                                              true)
+                                            Navigator.pushNamed(
+                                                context, '/ajuda1',
+                                                arguments: '/jogo0');
                                           else
-                                                Navigator.pushNamed(context, '/jogo0');
+                                            Navigator.pushNamed(
+                                                context, '/jogo0');
                                         },
                                       ),
                                       SizedBox(height: 10),
-                                      Text('Jogo Das Imagens', style: TextStyle(fontSize: 12),),
+                                      Text(
+                                        'Jogo Das Imagens',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(width: 10),
@@ -99,18 +108,24 @@ class _MenuState extends State<Menu> {
                                           color: Colors.red[100],
                                         ),
                                         onTap: () {
-                                          if (prefs.getBool('firstTimePlaying') ??
+                                          if (prefs.getBool(
+                                                  'firstTimePlaying') ??
                                               true)
-                                            Navigator.pushNamed(context, '/ajuda1',
+                                            Navigator.pushNamed(
+                                                context, '/ajuda1',
                                                 arguments: '/jogo1');
                                           else
-                                            Navigator.pushNamed(context, "/jogo1");
+                                            Navigator.pushNamed(
+                                                context, "/jogo1");
                                         },
                                       ),
                                       SizedBox(height: 10),
-                                      Text('Jogo Das Interações', style: TextStyle(fontSize: 12),),
-                                    ],                          
-                                  ),          
+                                      Text(
+                                        'Jogo Das Interações',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
 
