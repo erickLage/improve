@@ -48,7 +48,7 @@ class ImproveApp extends StatelessWidget {
             colors[1],
             colors[2],
             1),
-        accentColor: prefs.getBool('textBlack')
+        accentColor: prefs.getBool('textBlack') ?? true
           ? Color.fromRGBO(
             colors[0] - ((colors[0])/3).round(), 
             colors[1] - ((colors[1])/3).round(), 
