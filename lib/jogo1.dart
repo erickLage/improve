@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:improve/main.dart';
 
 class Jogo1Menu extends StatefulWidget {
   @override
@@ -115,17 +117,6 @@ class _Jogo1MenuState extends State<Jogo1Menu> {
                         width: MediaQuery.of(context).size.width - 100,
                         child: Text('Jogar')),
                   ),
-                  // RaisedButton(
-                  //   color: Colors.lightGreen[400],
-                  //   onPressed: () async {
-                  //     await Navigator.push(context,
-                  //         MaterialPageRoute(builder: (context) => Jogo1Menu()));
-                  //   },
-                  //   child: Container(
-                  //       alignment: Alignment.center,
-                  //       width: MediaQuery.of(context).size.width - 100,
-                  //       child: Text('Galeria')),
-                  // ),
                   RaisedButton(
                     color: Colors.pink[300],
                     onPressed: () async {
@@ -177,6 +168,14 @@ class _Jogo1State extends State<Jogo1> {
 
   final Random random = new Random();
 
+  Color selectedColor;
+  bool isTextBlack;
+
+  int pontuacaoTotal = 0;
+  int qntErro = 0;
+
+  Stopwatch tempo = new Stopwatch();
+
   List<String> opcoes = [
     'computador', 'impressora', 'grampeador', 'elevador', 'regua', 'saida_de_emergencia', 
     'cafeteira', 'cracha', 'calculadora', 'teclado', 'pendrive', 'calendario', 'quadro', 
@@ -219,35 +218,46 @@ class _Jogo1State extends State<Jogo1> {
   }
 
   @override
+  void didChangeDependencies() {
+    selectedColor = Theme.of(context).primaryColor;
+    isTextBlack = (selectedColor.red + selectedColor.green + selectedColor.blue) > 382.5 || (selectedColor.green > selectedColor.red + selectedColor.blue && selectedColor.green > 170);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    tempo.start();
     return Scaffold(
       body: Container(
-        color: Theme.of(context).primaryColor,
         child: Column(
           children: [
             SizedBox(height: 100),
-            Text(prompts[round]['prompt']),
+            Text(prompts[round]['prompt'], style: TextStyle(fontSize: 16)),
             Container(
               padding: EdgeInsets.all(10),
               height: 150,
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Draggable<String>(
-                  data: prompts[round]['itemAlvo'],
-                  child: Container(
-                    height: 75,
-                    width: 75,
-                    child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
-                  ),
-                  childWhenDragging: Container(
-                    height: 75,
-                    width: 75,
-                    color: Colors.grey
-                  ),
-                  feedback:  Container(
-                    height: 75,
-                    width: 75,
-                    child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  color: Theme.of(context).accentColor,
+                  child: Draggable<String>(
+                    data: prompts[round]['itemAlvo'],
+                    child: Container(
+                      height: 75,
+                      width: 75,
+                      child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
+                    ),
+                    childWhenDragging: Container(
+                      height: 75,
+                      width: 75,
+                      color: Colors.grey
+                    ),
+                    feedback:  Container(
+                      height: 75,
+                      width: 75,
+                      child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
+                    ),
                   ),
                 )
               ),
@@ -261,18 +271,28 @@ class _Jogo1State extends State<Jogo1> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+                    padding: EdgeInsets.all(5),
+                    color: Theme.of(context).accentColor,
                     child: DragTarget<String>(
                       onWillAccept: (data) => round < 4,
-                      onAccept: (data){
+                      onAccept: (data) async{
                         setState(() {
                           if(data.compareTo(alternativas1[round]) == 0){
                             corInicial = Colors.green;
+                            tempo.stop();
+                            pontuacaoTotal+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                            tempo.reset();
+                            round++;
                           }
                           else{
                             corInicial = Colors.red;
+                            qntErro++;
                           }
-                          round++;
                         });
+                        if(round >= 4){
+                          await mostraPontuacao();
+                          Navigator.pop(context);
+                        }
                       },
                       builder: (context, color, list){
                         return Container(
@@ -284,18 +304,28 @@ class _Jogo1State extends State<Jogo1> {
                     )
                   ),
                   Container(
+                    padding: EdgeInsets.all(5),
+                    color: Theme.of(context).accentColor,
                     child: DragTarget<String>(
                       onWillAccept: (data) => round < 4,
-                      onAccept: (data){
+                      onAccept: (data) async{
                         setState(() {
                           if(data.compareTo(alternativas2[round]) == 0){
                             corInicial = Colors.green;
+                            tempo.stop();
+                            pontuacaoTotal+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                            tempo.reset();
+                            round++;
                           }
                           else{
                             corInicial = Colors.red;
+                            qntErro++;
                           }
-                          round++;
                         });
+                        if(round >= 4){
+                          await mostraPontuacao();
+                          Navigator.pop(context);
+                        }
                       },
                       builder: (context, color, list){
                         return Container(
@@ -307,18 +337,28 @@ class _Jogo1State extends State<Jogo1> {
                     )
                   ),
                   Container(
+                    padding: EdgeInsets.all(5),
+                    color: Theme.of(context).accentColor,
                     child: DragTarget<String>(
                       onWillAccept: (data) => round < 4,
-                      onAccept: (data){
+                      onAccept: (data) async{
                         setState(() {
                           if(data.compareTo(alternativas3[round]) == 0){
                             corInicial = Colors.green;
+                            tempo.stop();
+                            pontuacaoTotal+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                            tempo.reset();
+                            round++;
                           }
                           else{
                             corInicial = Colors.red;
+                            qntErro++;
                           }
-                          round++;
                         });
+                        if(round >= 4){
+                          await mostraPontuacao();
+                          Navigator.pop(context);
+                        }
                       },
                       builder: (context, color, list){
                         return Container(
@@ -386,6 +426,36 @@ class _Jogo1State extends State<Jogo1> {
       }
       
     }
+  }
+
+  Future<void> mostraPontuacao() async{
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: selectedColor,
+          title: Text('Fim de jogo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+          content: Container(
+            child: Text('${user.getName()}, sua pontuação foi de: ${pontuacaoTotal - qntErro*5 > 0 ? pontuacaoTotal - 5*qntErro : 0}', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+          ),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.pop(context);
+              }, 
+              child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+            ),
+          ],
+        );
+      },
+    );
+    user.setPontuacoes({
+      'jogo': 1,
+      'nivel': 0,
+      'pontuacao': pontuacaoTotal,
+      'data': Timestamp.fromDate(DateTime.now()),
+    });
+    await user.saveFirestore();
   }
 }
 
