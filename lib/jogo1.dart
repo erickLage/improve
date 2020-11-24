@@ -11,6 +11,7 @@ class Jogo1Menu extends StatefulWidget {
 class _Jogo1MenuState extends State<Jogo1Menu> {
   int nivelSelecionado = 0;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,19 +177,48 @@ class Jogo1 extends StatefulWidget {
 
 class _Jogo1State extends State<Jogo1> {
 
+  final Random random = new Random();
 
   List<String> opcoes = [
-    'computador', 'impressora', 'grampeador', 'elevador', 'régua', 'saída de emergência', 
-    'cafeteira', 'crachá', 'calculadora', 'teclado', 'pendrive', 'calendário', 'quadro', 
-    'projetor', 'banheiro feminino', 'banheiro masculino', 'escaninho', 'extintor de incêndio',
-    'bebedouro', 'cadeira', 'reunião', 'mesa', 'papéis', 'caneta',
+    'computador', 'impressora', 'grampeador', 'elevador', 'regua', 'saida_de_emergencia', 
+    'cafeteira', 'cracha', 'calculadora', 'teclado', 'pendrive', 'calendario', 'quadro', 
+    'projetor', 'banheiro_feminino', 'banheiro_masculino', 'escaninho', 'extintor_de_incendio',
+    'bebedouro', 'cadeira', 'reuniao', 'mesa', 'papeis', 'caneta', 'canetao', 'mochila',
+    'maquinaponto', 'garrafinha', 'mouse', 'xicara', 'contrato'
   ];
+
   
-  String texto1 = 'não cu';
-  String texto2 = 'aqui n';
-  String texto3 = 'cu';
+  List<Map> prompts = [
+    {'prompt': 'Bata o ponto', 'arrastavel': 'cracha', 'itemAlvo': 'maquinaponto'},
+    {'prompt': 'Escreva um recado no quadro', 'arrastavel': 'canetao', 'itemAlvo': 'quadro'},
+    {'prompt': 'Encha a garrafinha de agua', 'arrastavel': 'garrafinha', 'itemAlvo': 'bebedouro'},
+    {'prompt': 'Assine o contrato', 'arrastavel': 'caneta', 'itemAlvo': 'contrato'},
+    {'prompt': 'Conecte o mouse ao computador', 'arrastavel': 'mouse', 'itemAlvo': 'computador'},
+    {'prompt': 'Busque um xícara de café', 'arrastavel': 'xicara', 'itemAlvo': 'cafeteira'},
+    {'prompt': 'Guarde sua mochila no escaninho', 'arrastavel': 'mochila', 'itemAlvo': 'escaninho'},
+    {'prompt': 'Reponha o papeis na impressora', 'arrastavel': 'papeis', 'itemAlvo': 'impressora'},
+    {'prompt': 'Grampeie os papeis', 'arrastavel': 'grampeador', 'itemAlvo': 'papeis'},
+    {'prompt': 'O computador está pegando fogo!', 'arrastavel': 'extintor_de_incendio', 'itemAlvo': 'computador'},
+    {'prompt': 'A impressora está pegando fogo!', 'arrastavel': 'extintor_de_incendio', 'itemAlvo': 'impressora'},
+    {'prompt': 'Conecte o teclado ao computador', 'arrastavel': 'teclado', 'itemAlvo': 'computador'},
+    {'prompt': 'Ligue o projetor na sala de reuniões', 'arrastavel': 'projetor', 'itemAlvo': 'reuniao'},
+    {'prompt': 'Conecte o pendrive ao computador', 'arrastavel': 'pendrive', 'itemAlvo': 'computador'},
+  ];
+
+  List<String> alternativas1 = new List<String>(13);
+  List<String> alternativas2 = new List<String>(13);
+  List<String> alternativas3 = new List<String>(13);
   
   Color corInicial = Colors.grey;
+
+  int round = 0;
+
+  @override
+  void initState() {
+    prompts = embaralhaOpcoes(prompts);
+    preencheAlternativa();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,18 +228,18 @@ class _Jogo1State extends State<Jogo1> {
         child: Column(
           children: [
             SizedBox(height: 100),
-            Text('Coloque o papelzinho na impressorazinha'),
+            Text(prompts[round]['prompt']),
             Container(
               padding: EdgeInsets.all(10),
               height: 150,
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Draggable<String>(
-                  data: 'papeis',
+                  data: prompts[round]['itemAlvo'],
                   child: Container(
                     height: 75,
                     width: 75,
-                    child: Image.asset('src/jogoImagens/papeis.jpg', fit: BoxFit.cover,),
+                    child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
                   ),
                   childWhenDragging: Container(
                     height: 75,
@@ -219,7 +249,7 @@ class _Jogo1State extends State<Jogo1> {
                   feedback:  Container(
                     height: 75,
                     width: 75,
-                    child: Image.asset('src/jogoImagens/papeis.jpg', fit: BoxFit.cover,),
+                    child: Image.asset('src/jogoImagens/${prompts[round]['arrastavel']}.jpg', fit: BoxFit.cover,),
                   ),
                 )
               ),
@@ -234,51 +264,69 @@ class _Jogo1State extends State<Jogo1> {
                 children: [
                   Container(
                     child: DragTarget<String>(
-                      onWillAccept: (data) => false,
-                      onLeave: (data){
-                        setState(() {
-                          corInicial = Colors.red;
-                        });
-                      },
-                      builder: (context, color, list){
-                        return Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.asset('src/jogoImagens/teclado.jpg', fit: BoxFit.cover)
-                        );
-                      },
-                    )
-                  ),
-                  Container(
-                    child: DragTarget<String>(
-                      onWillAccept: (data) => false,
-                      onLeave: (data) {
-                        setState(() {
-                          corInicial = Colors.red;
-                        });
-                      },
-                      builder: (context, color, list){
-                        return Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.asset('src/jogoImagens/escaninho.jpg', fit: BoxFit.cover,),
-                        );
-                      },
-                    )
-                  ),
-                  Container(
-                    child: DragTarget<String>(
-                      onWillAccept: (data) => data.compareTo('papeis') == 0,
+                      onWillAccept: (data) => round < 4,
                       onAccept: (data){
                         setState(() {
-                          corInicial = Colors.green;
+                          if(data.compareTo(alternativas1[round]) == 0){
+                            corInicial = Colors.green;
+                          }
+                          else{
+                            corInicial = Colors.red;
+                          }
+                          round++;
                         });
                       },
                       builder: (context, color, list){
                         return Container(
                           height: 100,
                           width: 100,
-                          child: Image.asset('src/jogoImagens/impressora.jpg', fit: BoxFit.cover,),
+                          child: Image.asset('src/jogoImagens/${alternativas1[round]}.jpg', fit: BoxFit.cover)
+                        );
+                      },
+                    )
+                  ),
+                  Container(
+                    child: DragTarget<String>(
+                      onWillAccept: (data) => round < 4,
+                      onAccept: (data){
+                        setState(() {
+                          if(data.compareTo(alternativas2[round]) == 0){
+                            corInicial = Colors.green;
+                          }
+                          else{
+                            corInicial = Colors.red;
+                          }
+                          round++;
+                        });
+                      },
+                      builder: (context, color, list){
+                        return Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('src/jogoImagens/${alternativas2[round]}.jpg', fit: BoxFit.cover,),
+                        );
+                      },
+                    )
+                  ),
+                  Container(
+                    child: DragTarget<String>(
+                      onWillAccept: (data) => round < 4,
+                      onAccept: (data){
+                        setState(() {
+                          if(data.compareTo(alternativas3[round]) == 0){
+                            corInicial = Colors.green;
+                          }
+                          else{
+                            corInicial = Colors.red;
+                          }
+                          round++;
+                        });
+                      },
+                      builder: (context, color, list){
+                        return Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('src/jogoImagens/${alternativas3[round]}.jpg', fit: BoxFit.cover,),
                         );
                       },
                     )
@@ -296,7 +344,55 @@ class _Jogo1State extends State<Jogo1> {
       )
     );
   }
+
+  List<Map> embaralhaOpcoes(List<Map> items){
+    for (int i = items.length - 1; i > 0; i--) {
+
+      int n = random.nextInt(i + 1);
+
+      Map temp = items[i];
+      items[i] = items[n];
+      items[n] = temp;
+    }
+
+    return items;
+  }
+  void preencheAlternativa(){
+    for(int i = 0;i < 13;i++){
+      String alt;
+      do{
+        int n = random.nextInt(opcoes.length);
+        alt = opcoes[n];
+      }while(alt.compareTo(prompts[i]['itemAlvo']) == 0 || alt.compareTo(prompts[i]['arrastavel']) == 0);
+      alternativas1[i] = alt;
+      do{
+        int n = random.nextInt(opcoes.length);
+        alt = opcoes[n];
+      }while(alt.compareTo(prompts[i]['itemAlvo']) == 0 || alt.compareTo(prompts[i]['arrastavel']) == 0 || alt.compareTo(alternativas1[i]) == 0);
+      alternativas2[i] = alt;
+      do{
+        int n = random.nextInt(opcoes.length);
+        alt = opcoes[n];
+      }while(alt.compareTo(prompts[i]['itemAlvo']) == 0 || alt.compareTo(prompts[i]['arrastavel']) == 0 || alt.compareTo(alternativas1[i]) == 0 || alt.compareTo(alternativas2[i]) == 0);
+      alternativas3[i] = alt;
+      switch(random.nextInt(3)){
+        case 0:
+          alternativas1[i] = prompts[i]['itemAlvo'];
+          break;
+        case 1:
+          alternativas2[i] = prompts[i]['itemAlvo'];
+          break;
+        case 2:
+          alternativas3[i] = prompts[i]['itemAlvo'];
+          break;
+      }
+      
+    }
+  }
 }
+
+
+
 
 Color randomColor() {
   Random rng = new Random();
