@@ -373,7 +373,7 @@ class _Jogo0State extends State<Jogo0> {
                                               onPressed: (){
                                                 Navigator.pop(context);
                                               }, 
-                                              child: Text('Ok :(')
+                                              child: Text('Ok')
                                             ),
                                           ],
                                         );
@@ -401,7 +401,7 @@ class _Jogo0State extends State<Jogo0> {
                                               onPressed: (){
                                                 Navigator.pop(context);
                                               }, 
-                                              child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                              child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                             ),
                                           ],
                                         );
@@ -521,7 +521,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :(')
+                                                child: Text('Ok')
                                               ),
                                             ],
                                           );
@@ -549,7 +549,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                                child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                               ),
                                             ],
                                           );
@@ -606,7 +606,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :(')
+                                                child: Text('Ok')
                                               ),
                                             ],
                                           );
@@ -758,7 +758,7 @@ class _Jogo0State extends State<Jogo0> {
                                           onPressed: (){
                                             Navigator.pop(context);
                                           }, 
-                                          child: Text('Ok :(')
+                                          child: Text('Ok')
                                         ),
                                       ],
                                     );
@@ -787,7 +787,7 @@ class _Jogo0State extends State<Jogo0> {
                                           onPressed: (){
                                             Navigator.pop(context);
                                           }, 
-                                          child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                          child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                         ),
                                       ],
                                     );
@@ -795,7 +795,7 @@ class _Jogo0State extends State<Jogo0> {
                                 );
                                 user.setPontuacoes({
                                   'jogo': 0,
-                                  'nivel': 0,
+                                  'nivel': 2,
                                   'pontuacao': pontuacao,
                                   'data': Timestamp.fromDate(DateTime.now()),
                                 });
