@@ -3,35 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:improve/main.dart';
 
 class Ajuda extends StatefulWidget {
-  @override
-  _AjudaState createState() => _AjudaState();
+  final bool isBlack;
+  Ajuda(this.isBlack);
+  _AjudaState createState() => _AjudaState(isBlack);
 }
 
 class _AjudaState extends State<Ajuda> {
-  PageController pageController =
+  final bool isBlack;
+  PageController pageController;
+  int paginaAtual;
+  List<String> titulo;
+  List<String> descricao;
+  List<Widget> icones;
+
+  _AjudaState(this.isBlack){
+    pageController =
       new PageController(initialPage: 0, viewportFraction: 1);
-  int paginaAtual = 0;
-  List<String> titulo = [
-    'Bem vindo ao Improve!',
-    'Cadastre-se',
-    'Personalize',
-    'Jogue',
-    'Pontue e compartilhe'
-  ];
-  List<String> descricao = [
-    'Este aplicativo foi desenvolvido para pessoas com a sindrome de asperger. Se necessário, peça a ajuda de um acompanhante.',
-    'Para começar, cadastre-se na tela inicial, verifique o seu email e depois faça o login.',
-    'Personalize o aplicativo de acordo com a suas preferências.',
-    'Jogue, divirta-se e aprenda.',
-    'Verifique suas melhores pontuações. Se quiser, cadastre as informações de um especialista e compartilhe seus resultados.'
-  ];
-  List<Widget> icones = [
-    Image.asset('src/assets/logo_sem_fundo.png', color: Colors.white),
-    Icon(Icons.face, size: 100, color: Colors.white),
-    Icon(Icons.create, size: 100, color: Colors.white),
-    Icon(Icons.sports_esports, size: 100, color: Colors.white),
-    Icon(Icons.share, size: 100, color: Colors.white)
-  ];
+    paginaAtual = 0;
+    titulo = [
+      'Bem vindo ao Improve!',
+      'Cadastre-se',
+      'Personalize',
+      'Jogue',
+      'Pontue e compartilhe'
+    ];
+    descricao = [
+      'Este aplicativo foi desenvolvido para pessoas com a sindrome de asperger. Se necessário, peça a ajuda de um acompanhante.',
+      'Para começar, cadastre-se na tela inicial, verifique o seu email e depois faça o login.',
+      'Personalize o aplicativo de acordo com a suas preferências.',
+      'Jogue, divirta-se e aprenda.',
+      'Verifique suas melhores pontuações. Se quiser, cadastre as informações de um especialista e compartilhe seus resultados.'
+    ];
+    icones = [
+      Image.asset('src/assets/logo_sem_fundo.png', color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.face, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.create, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.sports_esports, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.share, size: 100, color: this.isBlack ? Colors.black : Colors.white)
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class _AjudaState extends State<Ajuda> {
               },
               itemBuilder: (context, index) {
                 return Container(
-                  color: randomColor(),
+                  color: Theme.of(context).primaryColor,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -60,7 +70,7 @@ class _AjudaState extends State<Ajuda> {
                           style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: this.isBlack ? Colors.black : Colors.white),
                         ),
                         SizedBox(height: 5),
                         Padding(
@@ -68,7 +78,7 @@ class _AjudaState extends State<Ajuda> {
                           child: Text(
                             descricao[index],
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white),
                           ),
                         )
                       ]),

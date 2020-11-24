@@ -4,30 +4,76 @@ import 'package:improve/main.dart';
 
 class Ajuda1 extends StatefulWidget {
   final int pagina;
-  Ajuda1({this.pagina});
-  _Ajuda1State createState() => _Ajuda1State();
+  final bool isBlack;
+  Ajuda1(this.isBlack, {this.pagina});
+  _Ajuda1State createState() => _Ajuda1State(isBlack);
 }
 
 class _Ajuda1State extends State<Ajuda1> {
-  PageController pageController =
+  final bool isBlack;
+  int paginaAtual;
+  String jogo;
+  PageController pageController;
+  List<String> titulo;
+  List<dynamic> descricao;
+  List<Widget> icones;
+
+  _Ajuda1State(this.isBlack){
+    pageController =
       new PageController(initialPage: 0, viewportFraction: 1);
-  int paginaAtual = 0;
-  String jogo = '';
-  List<String> titulo = [
-    'Tutoriais',
-    'Jogo das Imagens',
-    'Jogo das Interações',
-  ];
-  List<String> descricao = [
-    'Aprenda a como jogar os jogos propostos',
-    'Fácil: Marque a palavra que descreve a imagem. \nMédio: Marque a imagem de acordo com o texto. \nDifícil: Escreva o que representa a imagem.',
-    'Combine objetos para completar tarefas',
+    paginaAtual = 0;
+    jogo = '';
+    titulo = [
+      'Tutoriais',
+      'Jogo das Imagens',
+      'Jogo das Interações',
     ];
-  List<Widget> icones = [
-    Icon(Icons.accessibility, size: 100, color: Colors.white),
-    Icon(Icons.collections_outlined, size: 100, color: Colors.white),
-    Icon(Icons.gamepad, size: 100, color: Colors.white),
-  ];
+    descricao = [
+      Text(
+        'Aprenda a como jogar os jogos propostos',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white),
+      ),
+      Column(
+        children: [
+          RichText(    
+            text: TextSpan( text: 'Fácil: ', style: TextStyle(fontSize: 18, color: this.isBlack ? Colors.black : Colors.white, fontWeight: FontWeight.bold), 
+              children: <TextSpan>[
+                TextSpan(text: 'Marque a palavra que descreve a imagem. \n', style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white)),
+              ],
+            ),
+            textAlign: TextAlign.left,
+          ),
+          RichText(    
+            text: TextSpan(text: 'Médio: ', style: TextStyle(fontSize: 18, color: this.isBlack ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                TextSpan(text: 'Marque a imagem de acordo com o texto. \n', style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white)),
+              ],
+            ),
+            textAlign: TextAlign.left,    
+          ),
+          RichText(    
+            text: TextSpan(text: 'Difícil: ', style: TextStyle(fontSize: 18, color: this.isBlack ? Colors.black : Colors.white, fontWeight: FontWeight.bold), 
+              children: <TextSpan>[
+                TextSpan(text: 'Escreva o que representa a imagem.', style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white)),
+              ],
+            ),
+            textAlign: TextAlign.left,       
+          ),
+        ],
+      ),
+      Text(
+        'Combine objetos para completar tarefas',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, color: this.isBlack ? Colors.black : Colors.white),
+      ),
+    ];
+    icones = [
+      Icon(Icons.accessibility, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.collections_outlined, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+      Icon(Icons.gamepad, size: 100, color: this.isBlack ? Colors.black : Colors.white),
+    ];
+  }
 
   @override
   void didChangeDependencies() {
@@ -41,7 +87,9 @@ class _Ajuda1State extends State<Ajuda1> {
       return Scaffold(
         body: SafeArea(
           child: Container(
-            color: randomColor(),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Theme.of(context).primaryColor,
             child: Stack(
               children: [
                 Column(
@@ -53,17 +101,14 @@ class _Ajuda1State extends State<Ajuda1> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
+                        color: this.isBlack ? Colors.black : Colors.white
                       ),
+                      textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 5),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Text(
-                        descricao[widget.pagina],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: descricao[widget.pagina],
                     )
                   ]
                 ),
@@ -76,8 +121,8 @@ class _Ajuda1State extends State<Ajuda1> {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.chevron_left, size: 30, color: Colors.white,),
-                        Text('Voltar', style: TextStyle(fontSize: 16,color: Colors.white),),        
+                        Icon(Icons.chevron_left, size: 30, color: this.isBlack ? Colors.black : Colors.white,),
+                        Text('Voltar', style: TextStyle(fontSize: 16,color: this.isBlack ? Colors.black : Colors.white),),        
                       ],
                     )
                   )
@@ -103,7 +148,7 @@ class _Ajuda1State extends State<Ajuda1> {
                 },
                 itemBuilder: (context, index) {
                   return Container(
-                    color: randomColor(),
+                    color: Theme.of(context).primaryColor,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -113,16 +158,12 @@ class _Ajuda1State extends State<Ajuda1> {
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                color: this.isBlack ? Colors.black : Colors.white),
                           ),
                           SizedBox(height: 5),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Text(
-                              descricao[index],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16, color: Colors.white),
-                            ),
+                            child: descricao[index],   
                           )
                         ]),
                   );

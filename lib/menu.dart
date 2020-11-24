@@ -39,7 +39,7 @@ class _MenuState extends State<Menu> {
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Bem vindo, " + user.getName(),
-                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                    style: TextStyle(fontSize: 18, color: Theme.of(context).accentColor, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -62,6 +62,7 @@ class _MenuState extends State<Menu> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
+                        contentPadding: EdgeInsets.all(2),
                         content: Container(
                           height: 250,
                           child: Column(
@@ -77,35 +78,44 @@ class _MenuState extends State<Menu> {
                                         child: Container(
                                           height: 100,
                                           width: 100,
-                                          color: Colors.red[50],
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage('src/jogoImagens/jogo_das_imagens.png'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                        onTap: () {
+                                        onTap: () async{
                                           if (prefs.getBool(
                                                   'firstTimePlaying') ??
                                               true)
-                                            Navigator.pushNamed(
+                                            await Navigator.pushNamed(
                                                 context, '/ajuda1',
                                                 arguments: '/jogo0');
                                           else
-                                            Navigator.pushNamed(
+                                            await Navigator.pushNamed(
                                                 context, '/jogo0');
                                         },
                                       ),
                                       SizedBox(height: 10),
                                       Text(
                                         'Jogo Das Imagens',
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize: 14, color: Colors.black),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 10),
                                   Column(
                                     children: [
                                       GestureDetector(
                                         child: Container(
                                           height: 100,
                                           width: 100,
-                                          color: Colors.red[100],
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage('src/jogoIteracoes/jogo_das_iteracoes.jpg'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                         onTap: () {
                                           if (prefs.getBool(
@@ -122,49 +132,12 @@ class _MenuState extends State<Menu> {
                                       SizedBox(height: 10),
                                       Text(
                                         'Jogo Das Interações',
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize: 14, color: Colors.black),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceEvenly,
-                              //   children: [
-                              //     GestureDetector(
-                              //       child: Container(
-                              //         height: 100,
-                              //         width: 100,
-                              //         color: Colors.red[200],
-                              //       ),
-                              //       onTap: () {
-                              //         if (prefs.getBool('firstTimePlaying') ??
-                              //             true)
-                              //           Navigator.pushNamed(context, '/ajuda1',
-                              //               arguments: '/jogo2');
-                              //         else
-                              //           Navigator.pushNamed(context, "/jogo2");
-                              //       },
-                              //     ),
-                              //     GestureDetector(
-                              //       child: Container(
-                              //         height: 100,
-                              //         width: 100,
-                              //         color: Colors.red[300],
-                              //       ),
-                              //       onTap: () {
-                              //         if (prefs.getBool('firstTimePlaying') ??
-                              //             true)
-                              //           Navigator.pushNamed(context, '/ajuda1',
-                              //               arguments: '/jogo3');
-                              //         else
-                              //           Navigator.pushNamed(context, "/jogo3");
-                              //       },
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),

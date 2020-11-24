@@ -366,7 +366,7 @@ class _Jogo0State extends State<Jogo0> {
                                       context: context,
                                       builder: (context){
                                         return AlertDialog(
-                                          title: Text('Você ERROU!!!'),
+                                          
                                           content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
                                           actions: [
                                             FlatButton(
@@ -392,7 +392,7 @@ class _Jogo0State extends State<Jogo0> {
                                       builder: (context){
                                         return AlertDialog(
                                           backgroundColor: selectedColor,
-                                          title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                          title: Text('Fim de jogo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
                                           content: Container(
                                             child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                           ),
@@ -503,7 +503,7 @@ class _Jogo0State extends State<Jogo0> {
                                         context: context,
                                         builder: (context){
                                           return AlertDialog(
-                                            title: Text('Você ERROU!!!'),
+                                            
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -540,7 +540,7 @@ class _Jogo0State extends State<Jogo0> {
                                         builder: (context){
                                           return AlertDialog(
                                             backgroundColor: selectedColor,
-                                            title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                            title: Text('Fim de jogo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
                                             content: Container(
                                               child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                             ),
@@ -588,7 +588,7 @@ class _Jogo0State extends State<Jogo0> {
                                         context: context,
                                         builder: (context){
                                           return AlertDialog(
-                                            title: Text('Você ERROU!!!'),
+                                            
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -625,7 +625,7 @@ class _Jogo0State extends State<Jogo0> {
                                         builder: (context){
                                           return AlertDialog(
                                             backgroundColor: selectedColor,
-                                            title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                            title: Text('Fim de jogo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
                                             content: Container(
                                               child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                             ),
@@ -751,7 +751,7 @@ class _Jogo0State extends State<Jogo0> {
                                   context: context,
                                   builder: (context){
                                     return AlertDialog(
-                                      title: Text('Você ERROU!!!'),
+                                      
                                       content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
                                       actions: [
                                         FlatButton(
@@ -778,7 +778,7 @@ class _Jogo0State extends State<Jogo0> {
                                   builder: (context){
                                     return AlertDialog(
                                       backgroundColor: selectedColor,
-                                      title: Text('Pão de queijo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
+                                      title: Text('Fim de jogo', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white)),
                                       content: Container(
                                         child: Text('${user.getName()}, sua pontuação foi de: $pontuacao', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                       ),

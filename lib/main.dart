@@ -73,18 +73,22 @@ class ImproveApp extends StatelessWidget {
           '/pontuacao': (context) => Pontuacao(),
           '/personaliza': (context) => Personaliza(),
           '/login': (context) => Login(),
-          '/ajuda': (context) => Ajuda(),
-          '/ajuda1': (context) => Ajuda1(),
-          '/tutorial0': (context) => Ajuda1(
+          '/ajuda': (context) => Ajuda(prefs.getBool('textBlack') ?? true),
+          '/ajuda1': (context) => Ajuda1(prefs.getBool('textBlack') ?? true),
+          '/tutorial0': (context) => Ajuda1( 
+                prefs.getBool('textBlack') ?? true,
                 pagina: 0,
               ),
           '/tutorial1': (context) => Ajuda1(
+                prefs.getBool('textBlack') ?? true,
                 pagina: 1,
               ),
           '/tutorial2': (context) => Ajuda1(
+                prefs.getBool('textBlack') ?? true,
                 pagina: 2,
               ),
           '/tutorial3': (context) => Ajuda1(
+                prefs.getBool('textBlack') ?? true,
                 pagina: 3,
               ),
           '/jogo0': (context) => Jogo0Menu(),

@@ -16,6 +16,7 @@ class _PersonalizaState extends State<Personaliza> {
   @override
   void didChangeDependencies() {
     selectedColor = Theme.of(context).primaryColor;
+    accentColor = Theme.of(context).accentColor;
     isTextBlack = (selectedColor.red + selectedColor.green + selectedColor.blue) > 382.5 || (selectedColor.green > selectedColor.red + selectedColor.blue && selectedColor.green > 170);
     super.didChangeDependencies();
   }
@@ -29,7 +30,7 @@ class _PersonalizaState extends State<Personaliza> {
           padding: EdgeInsets.all(0),
           child: Container(
             width: 74,
-            child: Icon(Icons.chevron_left, size: 30, color: Colors.white,),
+            child: Icon(Icons.chevron_left, size: 30, color: isTextBlack ? Colors.black : Colors.white,),
           ),
           onPressed: (){
             Navigator.pop(context);

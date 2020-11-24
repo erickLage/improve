@@ -27,7 +27,7 @@ class _PontuacaoState extends State<Pontuacao> {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Jogo das imagens'),
-              Tab(text: 'Ache o chefinho'),
+              Tab(text: 'Jogo das iterações'),
             ],
           ),
         ),
