@@ -373,7 +373,7 @@ class _Jogo0State extends State<Jogo0> {
                                               onPressed: (){
                                                 Navigator.pop(context);
                                               }, 
-                                              child: Text('Ok :(')
+                                              child: Text('Ok')
                                             ),
                                           ],
                                         );
@@ -401,7 +401,7 @@ class _Jogo0State extends State<Jogo0> {
                                               onPressed: (){
                                                 Navigator.pop(context);
                                               }, 
-                                              child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                              child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                             ),
                                           ],
                                         );
@@ -502,8 +502,7 @@ class _Jogo0State extends State<Jogo0> {
                                       await showDialog(
                                         context: context,
                                         builder: (context){
-                                          return AlertDialog(
-                                            
+                                          return AlertDialog( 
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -521,7 +520,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :(')
+                                                child: Text('Ok')
                                               ),
                                             ],
                                           );
@@ -535,6 +534,7 @@ class _Jogo0State extends State<Jogo0> {
                                         resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                       });
                                     }else{
+                                      pontuacao = (pontuacao * 1.2).round();
                                       await showDialog(
                                         context: context,
                                         builder: (context){
@@ -549,7 +549,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                                child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                               ),
                                             ],
                                           );
@@ -587,8 +587,7 @@ class _Jogo0State extends State<Jogo0> {
                                       await showDialog(
                                         context: context,
                                         builder: (context){
-                                          return AlertDialog(
-                                            
+                                          return AlertDialog(                                      
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -606,7 +605,7 @@ class _Jogo0State extends State<Jogo0> {
                                                 onPressed: (){
                                                   Navigator.pop(context);
                                                 }, 
-                                                child: Text('Ok :(')
+                                                child: Text('Ok')
                                               ),
                                             ],
                                           );
@@ -620,6 +619,7 @@ class _Jogo0State extends State<Jogo0> {
                                         resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                       });
                                     }else{
+                                      pontuacao = (pontuacao * 1.2).round();
                                       await showDialog(
                                         context: context,
                                         builder: (context){
@@ -751,14 +751,13 @@ class _Jogo0State extends State<Jogo0> {
                                   context: context,
                                   builder: (context){
                                     return AlertDialog(
-                                      
                                       content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
                                       actions: [
                                         FlatButton(
                                           onPressed: (){
                                             Navigator.pop(context);
                                           }, 
-                                          child: Text('Ok :(')
+                                          child: Text('Ok')
                                         ),
                                       ],
                                     );
@@ -773,6 +772,7 @@ class _Jogo0State extends State<Jogo0> {
                                   resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                 });
                               }else{
+                                pontuacao = (pontuacao * 1.5).round();
                                 await showDialog(
                                   context: context,
                                   builder: (context){
@@ -787,7 +787,7 @@ class _Jogo0State extends State<Jogo0> {
                                           onPressed: (){
                                             Navigator.pop(context);
                                           }, 
-                                          child: Text('Ok :)', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
+                                          child: Text('Ok', style: TextStyle(color: isTextBlack ? Colors.black : Colors.white))
                                         ),
                                       ],
                                     );
@@ -795,7 +795,7 @@ class _Jogo0State extends State<Jogo0> {
                                 );
                                 user.setPontuacoes({
                                   'jogo': 0,
-                                  'nivel': 0,
+                                  'nivel': 2,
                                   'pontuacao': pontuacao,
                                   'data': Timestamp.fromDate(DateTime.now()),
                                 });
