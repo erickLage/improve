@@ -502,8 +502,7 @@ class _Jogo0State extends State<Jogo0> {
                                       await showDialog(
                                         context: context,
                                         builder: (context){
-                                          return AlertDialog(
-                                            
+                                          return AlertDialog( 
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -535,6 +534,7 @@ class _Jogo0State extends State<Jogo0> {
                                         resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                       });
                                     }else{
+                                      pontuacao = (pontuacao * 1.2).round();
                                       await showDialog(
                                         context: context,
                                         builder: (context){
@@ -587,8 +587,7 @@ class _Jogo0State extends State<Jogo0> {
                                       await showDialog(
                                         context: context,
                                         builder: (context){
-                                          return AlertDialog(
-                                            
+                                          return AlertDialog(                                      
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
@@ -620,6 +619,7 @@ class _Jogo0State extends State<Jogo0> {
                                         resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                       });
                                     }else{
+                                      pontuacao = (pontuacao * 1.2).round();
                                       await showDialog(
                                         context: context,
                                         builder: (context){
@@ -751,7 +751,6 @@ class _Jogo0State extends State<Jogo0> {
                                   context: context,
                                   builder: (context){
                                     return AlertDialog(
-                                      
                                       content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
                                       actions: [
                                         FlatButton(
@@ -773,6 +772,7 @@ class _Jogo0State extends State<Jogo0> {
                                   resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                 });
                               }else{
+                                pontuacao = (pontuacao * 1.5).round();
                                 await showDialog(
                                   context: context,
                                   builder: (context){
