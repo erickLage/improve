@@ -15,24 +15,18 @@ class _Ajuda1State extends State<Ajuda1> {
   String jogo = '';
   List<String> titulo = [
     'Tutoriais',
-    'Cadastre-se',
-    'Personalize',
-    'Jogue',
-    'Pontue e compartilhe'
+    'Jogo das Imagens',
+    'Jogo das Interações',
   ];
   List<String> descricao = [
     'Aprenda a como jogar os jogos propostos',
-    'Para começar, cadastre-se na tela inicial, verifique o seu email e depois faça o login.',
-    'Personalize o aplicativo de acordo com a suas preferências.',
-    'Jogue, divirta-se e aprenda.',
-    'Verifique suas melhores pontuações. Se quiser, cadastre as informações de um especialista e compartilhe seus resultados.'
-  ];
+    'Fácil: Marque a palavra que descreve a imagem. \nMédio: Marque a imagem de acordo com o texto. \nDifícil: Escreva o que representa a imagem.',
+    'Combine objetos para completar tarefas',
+    ];
   List<Widget> icones = [
-    Icon(Icons.ac_unit, size: 100, color: Colors.white),
-    Icon(Icons.face, size: 100, color: Colors.white),
-    Icon(Icons.create, size: 100, color: Colors.white),
-    Icon(Icons.ac_unit, size: 100, color: Colors.white),
-    Icon(Icons.share, size: 100, color: Colors.white)
+    Icon(Icons.accessibility, size: 100, color: Colors.white),
+    Icon(Icons.collections_outlined, size: 100, color: Colors.white),
+    Icon(Icons.gamepad, size: 100, color: Colors.white),
   ];
 
   @override
@@ -101,7 +95,7 @@ class _Ajuda1State extends State<Ajuda1> {
             Expanded(
               child: PageView.builder(
                 controller: pageController,
-                itemCount: 5,
+                itemCount: 3,
                 onPageChanged: (index) {
                   setState(() {
                     paginaAtual = index;
@@ -179,7 +173,7 @@ class _Ajuda1State extends State<Ajuda1> {
                     child: IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () async {
-                        if (paginaAtual < 4) {
+                        if (paginaAtual < 2) {
                           await pageController.nextPage(
                               duration: Duration(milliseconds: 200),
                               curve: Curves.bounceIn);

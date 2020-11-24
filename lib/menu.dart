@@ -71,38 +71,100 @@ class _MenuState extends State<Menu> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  GestureDetector(
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.red[50],
-                                    ),
-                                    onTap: () {
-                                      if (prefs.getBool('firstTimePlaying') ??
-                                          true)
-                                        Navigator.pushNamed(context, '/ajuda1',
-                                            arguments: '/jogo0');
-                                      else
-                                        Navigator.pushNamed(context, '/jogo0');
-                                    },
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          color: Colors.red[50],
+                                        ),
+                                        onTap: () {
+                                          if (prefs.getBool(
+                                                  'firstTimePlaying') ??
+                                              true)
+                                            Navigator.pushNamed(
+                                                context, '/ajuda1',
+                                                arguments: '/jogo0');
+                                          else
+                                            Navigator.pushNamed(
+                                                context, '/jogo0');
+                                        },
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Jogo Das Imagens',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.red[100],
-                                    ),
-                                    onTap: () {
-                                      if (prefs.getBool('firstTimePlaying') ??
-                                          true)
-                                        Navigator.pushNamed(context, '/ajuda1',
-                                            arguments: '/jogo1');
-                                      else
-                                        Navigator.pushNamed(context, "/jogo1");
-                                    },
+                                  SizedBox(width: 10),
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          color: Colors.red[100],
+                                        ),
+                                        onTap: () {
+                                          if (prefs.getBool(
+                                                  'firstTimePlaying') ??
+                                              true)
+                                            Navigator.pushNamed(
+                                                context, '/ajuda1',
+                                                arguments: '/jogo1');
+                                          else
+                                            Navigator.pushNamed(
+                                                context, "/jogo1");
+                                        },
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Jogo Das Interações',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceEvenly,
+                              //   children: [
+                              //     GestureDetector(
+                              //       child: Container(
+                              //         height: 100,
+                              //         width: 100,
+                              //         color: Colors.red[200],
+                              //       ),
+                              //       onTap: () {
+                              //         if (prefs.getBool('firstTimePlaying') ??
+                              //             true)
+                              //           Navigator.pushNamed(context, '/ajuda1',
+                              //               arguments: '/jogo2');
+                              //         else
+                              //           Navigator.pushNamed(context, "/jogo2");
+                              //       },
+                              //     ),
+                              //     GestureDetector(
+                              //       child: Container(
+                              //         height: 100,
+                              //         width: 100,
+                              //         color: Colors.red[300],
+                              //       ),
+                              //       onTap: () {
+                              //         if (prefs.getBool('firstTimePlaying') ??
+                              //             true)
+                              //           Navigator.pushNamed(context, '/ajuda1',
+                              //               arguments: '/jogo3');
+                              //         else
+                              //           Navigator.pushNamed(context, "/jogo3");
+                              //       },
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ),

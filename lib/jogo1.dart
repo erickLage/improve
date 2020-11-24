@@ -131,7 +131,7 @@ class _Jogo1MenuState extends State<Jogo1Menu> {
                   RaisedButton(
                     color: Colors.pink[300],
                     onPressed: () async {
-                      await Navigator.pushNamed(context, '/tutorial1');
+                      await Navigator.pushNamed(context, '/tutorial2');
                     },
                     child: Container(
                         alignment: Alignment.center,
