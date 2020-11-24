@@ -772,7 +772,7 @@ class _Jogo0State extends State<Jogo0> {
                                   resposta = escolherResposta(opcoes.sublist(fase, fase+4));
                                 });
                               }else{
-                                pontuacao = (pontuacao * 1.5).round();
+                                pontuacao = (pontuacao * 1.4).round();
                                 await showDialog(
                                   context: context,
                                   builder: (context){

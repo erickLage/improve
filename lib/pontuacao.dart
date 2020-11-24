@@ -58,11 +58,11 @@ class _PontuacaoState extends State<Pontuacao> {
         physics: BouncingScrollPhysics(),
         itemBuilder: (context, index){
           String nivel = 'Fácil';
-          if(pontuacaoImagens[index]['pontuacao'] == 1){
+          if(pontuacaoImagens[index]['nivel'] == 1){
             nivel = 'Médio';
           }
           else{
-            if(pontuacaoImagens[index]['pontuacao'] == 2){
+            if(pontuacaoImagens[index]['nivel'] == 2){
               nivel = 'Difícil';
             }
           }
