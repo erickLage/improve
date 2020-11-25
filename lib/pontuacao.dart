@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:improve/Classes/user.dart';
+import 'package:social_share/social_share.dart';
 
 class Pontuacao extends StatefulWidget {
   _PontuacaoState createState() => _PontuacaoState();
