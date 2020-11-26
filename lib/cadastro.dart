@@ -43,7 +43,7 @@ class _CadastroState extends State<Cadastro> {
                     SizedBox(
                       height: 40,
                     ),
-                    Text('Cadastre seus dados', style: TextStyle(fontSize: 20),),
+                    Text('Cadastre seus dados', style: TextStyle(fontSize: 20, color: Colors.black),),
                     SizedBox(
                       height: 10,
                     ),
@@ -183,8 +183,8 @@ class _CadastroState extends State<Cadastro> {
 
         await showDialog(context: context, builder: (context){
           return AlertDialog(
-            title: Text('Falta pouco'), 
-            content: Text('Favor verificar Email para concluir o cadastro.'),
+            title: Text('Falta pouco', style: TextStyle(color: Colors.black)), 
+            content: Text('Favor verificar Email para concluir o cadastro.', style: TextStyle(color: Colors.black)),
             actions: <Widget>[
               FlatButton(
                 onPressed: (){

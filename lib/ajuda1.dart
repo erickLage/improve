@@ -92,25 +92,27 @@ class _Ajuda1State extends State<Ajuda1> {
             color: Theme.of(context).primaryColor,
             child: Stack(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    icones[widget.pagina],
-                    Text(
-                      titulo[widget.pagina],
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: this.isBlack ? Colors.black : Colors.white
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icones[widget.pagina],
+                      Text(
+                        titulo[widget.pagina],
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: this.isBlack ? Colors.black : Colors.white
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: descricao[widget.pagina],
-                    )
-                  ]
+                      SizedBox(height: 5),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: descricao[widget.pagina],
+                      )
+                    ]
+                  ),
                 ),
                 Positioned(
                   top: 10,

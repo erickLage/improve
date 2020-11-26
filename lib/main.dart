@@ -71,7 +71,7 @@ class ImproveApp extends StatelessWidget {
           '/splash': (context) => Splash(),
           '/cadastro': (context) => Cadastro(),
           '/pontuacao': (context) => Pontuacao(),
-          '/personaliza': (context) => Personaliza(),
+          '/personaliza': (context) => Personaliza(prefs.getInt('improveSound') ?? 0),
           '/login': (context) => Login(),
           '/ajuda': (context) => Ajuda(prefs.getBool('textBlack') ?? true),
           '/ajuda1': (context) => Ajuda1(prefs.getBool('textBlack') ?? true),
@@ -87,12 +87,8 @@ class ImproveApp extends StatelessWidget {
                 prefs.getBool('textBlack') ?? true,
                 pagina: 2,
               ),
-          '/tutorial3': (context) => Ajuda1(
-                prefs.getBool('textBlack') ?? true,
-                pagina: 3,
-              ),
-          '/jogo0': (context) => Jogo0Menu(),
-          '/jogo1': (context) => Jogo1Menu(),
+          '/jogo0': (context) => Jogo0Menu(prefs.getInt('improveSound') ?? 0),
+          '/jogo1': (context) => Jogo1Menu(prefs.getInt('improveSound') ?? 0),
         },
       );
     });

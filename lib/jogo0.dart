@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:improve/main.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 enum TtsState { playing, stopped, paused, continued }
 
 class Jogo0Menu extends StatefulWidget {
-  @override
+  final int audio;
+  Jogo0Menu(this.audio);
   _Jogo0MenuState createState() => _Jogo0MenuState();
 }
 
@@ -100,13 +102,12 @@ class _Jogo0MenuState extends State<Jogo0Menu> {
                   RaisedButton(
                     color: Colors.blue,
                     onPressed: () async {
-                      //await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)), (route) => false);
-                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado)));
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Jogo0(nivelSelecionado, widget.audio)));
                     },
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width - 100,
-                      child: Text('Jogar')),
+                      child: Text('Jogar', style: TextStyle(color: Colors.black))),
                   ),
                   RaisedButton(
                     color: Colors.lightGreen[400],
@@ -116,7 +117,7 @@ class _Jogo0MenuState extends State<Jogo0Menu> {
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width - 100,
-                      child: Text('Galeria')),
+                      child: Text('Galeria', style: TextStyle(color: Colors.black))),
                   ),
                   RaisedButton(
                     color: Colors.pink[300],
@@ -126,7 +127,7 @@ class _Jogo0MenuState extends State<Jogo0Menu> {
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width - 100,
-                      child: Text('Tutorial')),
+                      child: Text('Tutorial', style: TextStyle(color: Colors.black))),
                   ),
                 ],
               ),
@@ -157,7 +158,8 @@ class _Jogo0MenuState extends State<Jogo0Menu> {
 
 class Jogo0 extends StatefulWidget {
   final int nivel;
-  Jogo0(this.nivel);
+  final int audio;
+  Jogo0(this.nivel, this.audio);
   _Jogo0State createState() => _Jogo0State();
 }
 
@@ -186,6 +188,8 @@ class _Jogo0State extends State<Jogo0> {
 
   TextEditingController textEditingController = new TextEditingController();
   String respostaUser = '';
+
+  int audioSelecionado;
 
   get isPlaying => ttsState == TtsState.playing;
 
@@ -289,6 +293,7 @@ class _Jogo0State extends State<Jogo0> {
   void didChangeDependencies() {
     selectedColor = Theme.of(context).primaryColor;
     isTextBlack = (selectedColor.red + selectedColor.green + selectedColor.blue) > 382.5 || (selectedColor.green > selectedColor.red + selectedColor.blue && selectedColor.green > 170);
+    audioSelecionado = widget.audio;
     super.didChangeDependencies();
   }
 
@@ -361,13 +366,14 @@ class _Jogo0State extends State<Jogo0> {
                                   tempo.stop();
                                   if(resposta['index'] == index){
                                     pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                                    if(audioSelecionado == 1) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a1.mp3'));
+                                    else if(audioSelecionado == 2) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a2.mp3'));
                                   }else{
                                     await showDialog(
                                       context: context,
                                       builder: (context){
                                         return AlertDialog(
-                                          
-                                          content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                          content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}', style: TextStyle(color: Colors.black)),
                                           actions: [
                                             FlatButton(
                                               onPressed: (){
@@ -428,8 +434,8 @@ class _Jogo0State extends State<Jogo0> {
                   ),
                 ),
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 25,
+                  right: 25,
                   child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
                 ),
                 Positioned(
@@ -476,10 +482,10 @@ class _Jogo0State extends State<Jogo0> {
                         decoration: BoxDecoration(
                           border: Border.all(width: 1, color: Theme.of(context).primaryColor),
                         ),
-                        child: Text(resposta['palavra'], textAlign: TextAlign.center, style: TextStyle(fontSize: 26),)
+                        child: Text(resposta['palavra'], textAlign: TextAlign.center, style: TextStyle(fontSize: 26, color: Colors.black),)
                       ),
                       SizedBox(height: 50),
-                      Text('Qual é a imagem correta?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                      Text('Qual é a imagem correta?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),),
                       SizedBox(height: 10),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -497,6 +503,8 @@ class _Jogo0State extends State<Jogo0> {
                                   onTap:() async{
                                     tempo.stop();
                                     if(resposta['index'] == index){
+                                      if(audioSelecionado == 1) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a1.mp3'));
+                                      else if(audioSelecionado == 2) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a2.mp3'));
                                       pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
                                     }else{
                                       await showDialog(
@@ -506,7 +514,7 @@ class _Jogo0State extends State<Jogo0> {
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
-                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}', style: TextStyle(color: Colors.black)),
                                                 SizedBox(height: 10),
                                                 Container(   
                                                   child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover),
@@ -583,6 +591,8 @@ class _Jogo0State extends State<Jogo0> {
                                     tempo.stop();
                                     if(resposta['index'] == index+2){
                                       pontuacao+= 60 - ((tempo.elapsed.inSeconds < 60) ? tempo.elapsed.inSeconds : 60);
+                                      if(audioSelecionado == 1) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a1.mp3'));
+                                      else if(audioSelecionado == 2) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a2.mp3'));
                                     }else{
                                       await showDialog(
                                         context: context,
@@ -591,7 +601,7 @@ class _Jogo0State extends State<Jogo0> {
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children:[
-                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                                Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}', style: TextStyle(color: Colors.black)),
                                                 SizedBox(height: 10),
                                                 Container(   
                                                   child: Image.asset('src/jogoImagens/'+nomeArquivo(resposta['palavra'])+'.jpg', fit: BoxFit.cover),
@@ -671,8 +681,8 @@ class _Jogo0State extends State<Jogo0> {
                   ),
                 ),
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 25,
+                  right: 25,
                   child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
                 ),
                 Positioned(
@@ -744,14 +754,18 @@ class _Jogo0State extends State<Jogo0> {
                             onPressed: () async{
                               if(respostaUser.toLowerCase() == resposta['palavra']){
                                 pontuacao+= 60;
+                                if(audioSelecionado == 1) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a1.mp3'));
+                                else if(audioSelecionado == 2) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a2.mp3'));
                               }else if(semAcento(respostaUser.toLowerCase()) == semAcento(resposta['palavra'])){
                                 pontuacao+=30;
+                                if(audioSelecionado == 1) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a1.mp3'));
+                                else if(audioSelecionado == 2) AssetsAudioPlayer.playAndForget(Audio('src/assets/audios/a2.mp3'));
                               }else{
                                 await showDialog(
                                   context: context,
                                   builder: (context){
                                     return AlertDialog(
-                                      content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}'),
+                                      content: Text('Infelizmente não foi desta vez.\nA resposta certa era: ${resposta['palavra']}', style: TextStyle(color: Colors.black)),
                                       actions: [
                                         FlatButton(
                                           onPressed: (){
@@ -811,8 +825,8 @@ class _Jogo0State extends State<Jogo0> {
                     ),
                   ),
                   Positioned(
-                    top: 10,
-                    right: 10,
+                    top: 25,
+                    right: 25,
                     child: Text('${(fase/4).round()+1}/5', style: TextStyle(fontSize: 16,color: Colors.black),),        
                   ),
                   Positioned(
@@ -1086,7 +1100,7 @@ class _Jogo0GaleriaState extends State<Jogo0Galeria> {
                                           )
                                         ),
                                         SizedBox(height: 10),
-                                        Text(opcoes[index], style: TextStyle(fontSize: 18),)
+                                        Text(opcoes[index], style: TextStyle(fontSize: 18, color: Colors.black),)
                                       ],
                                     ),
                                   ),
@@ -1140,7 +1154,7 @@ class _Jogo0GaleriaState extends State<Jogo0Galeria> {
                                           )
                                         ),
                                         SizedBox(height: 10),
-                                        Text(opcoes[index+12], style: TextStyle(fontSize: 20),)
+                                        Text(opcoes[index+12], style: TextStyle(fontSize: 20, color: Colors.black),)
                                       ],
                                     ),
                                   ),

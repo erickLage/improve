@@ -1,6 +1,6 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:improve/Classes/user.dart';
 import 'package:improve/main.dart';
 
 class Menu extends StatefulWidget {
@@ -46,15 +46,22 @@ class _MenuState extends State<Menu> {
               RaisedButton(
                 color: Colors.blue,
                 onPressed: () async {
-                  await Navigator.pushNamed(context, '/login');
+                  if(user == null || user.getID() == '-1'){
+                    await Navigator.pushNamed(context, '/login');
+                  }else{
+                    await FirebaseAuth.instance.signOut();
+                    setState((){
+                      user = new User();
+                    });
+                  }
                 },
                 child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
                     child: Text(user == null || user.getID() == '-1'
                         ? 'Entrar'
-                        : 'Alterar conta')),
-              ),
+                        : 'Sair da conta')),
+              ),      
               RaisedButton(
                 color: Colors.lightGreen[400],
                 onPressed: () {

@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 40,
                     ),
-                    Text('Entre com seu email e senha:', style: TextStyle(fontSize: 20),),
+                    Text('Entre com seu email e senha:', style: TextStyle(fontSize: 20, color: Colors.black),),
                     SizedBox(
                       height: 10,
                     ),
