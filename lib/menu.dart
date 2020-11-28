@@ -150,20 +150,21 @@ class _MenuState extends State<Menu> {
                         ),
                         actions: [
                           IconButton(
-                              icon: Icon(Icons.help),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/ajuda1',
-                                    arguments: 'menu');
-                              })
+                            icon: Icon(Icons.help),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/ajuda1', arguments: 'menu');
+                            }
+                          )
                         ],
                       );
                     },
                   );
                 },
                 child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    child: Text('Jogar')),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text('Jogar')
+                ),
               ),
               RaisedButton(
                 color: Colors.cyan,
@@ -171,9 +172,10 @@ class _MenuState extends State<Menu> {
                   Navigator.pushNamed(context, '/pontuacao', arguments: user);
                 },
                 child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    child: Text('Ver pontuação')),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text('Ver pontuação')
+                ),
               ),
               RaisedButton(
                 color: Colors.pink[300],
@@ -181,9 +183,10 @@ class _MenuState extends State<Menu> {
                   Navigator.pushNamed(context, '/personaliza');
                 },
                 child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    child: Text('Personalizar')),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text('Personalizar')
+                ),
               ),
             ],
           ),
